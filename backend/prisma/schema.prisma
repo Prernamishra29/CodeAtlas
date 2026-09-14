@@ -1,0 +1,259 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [vector]
+}
+
+enum RepositoryStatus {
+  not_analyzed
+  queued
+  analyzing
+  completed
+  failed
+}
+
+enum AnalysisStatus {
+  queued
+  cloning
+  scanning
+  analyzing
+  completed
+  failed
+  cancelled
+}
+
+model User {
+  id               String       @id @default(uuid())
+  email            String       @unique
+  passwordHash     String
+  name             String
+  role             String       @default("Member")
+  notifyAnalysis   Boolean      @default(true)
+  notifyInsights   Boolean      @default(false)
+  compactDensity    Boolean      @default(false)
+  githubTokenCipher String?
+  googleId          String?      @unique
+  githubId          String?      @unique
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+  repositories      Repository[]
+  refreshTokens     RefreshToken[]
+  passwordResets    PasswordResetToken[]
+  notifications     Notification[]
+
+  @@index([createdAt])
+}
+
+model RefreshToken {
+  id        String    @id @default(uuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String    @unique
+  expiresAt DateTime
+  revokedAt DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId, expiresAt])
+}
+
+model Repository {
+  id             String           @id @default(uuid())
+  userId         String
+  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name           String
+  owner          String
+  url            String
+  defaultBranch  String           @default("main")
+  description    String?
+  status         RepositoryStatus @default(not_analyzed)
+  lastAnalyzedAt DateTime?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  analyses       Analysis[]
+  results        AnalysisResult[]
+  files          CodeFile[]
+  dependencies   Dependency[]
+  summaries      DocumentSummary[]
+  chunks         DocumentChunk[]
+  conversations  Conversation[]
+  notifications  Notification[]
+
+  @@unique([userId, url])
+  @@index([userId, createdAt])
+  @@index([status])
+}
+
+model Analysis {
+  id              String          @id @default(uuid())
+  repositoryId    String
+  repository      Repository      @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+  status          AnalysisStatus  @default(queued)
+  progress        Int             @default(0)
+  currentStep     String?
+  error           String?
+  attempts        Int             @default(0)
+  maxAttempts     Int             @default(3)
+  cancelRequested Boolean         @default(false)
+  startedAt       DateTime?
+  completedAt     DateTime?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  result          AnalysisResult?
+
+  @@index([repositoryId, createdAt])
+  @@index([status])
+}
+
+model AnalysisResult {
+  id           String     @id @default(uuid())
+  analysisId   String     @unique
+  analysis     Analysis   @relation(fields: [analysisId], references: [id], onDelete: Cascade)
+  repositoryId String
+  repository   Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+  totalFiles   Int        @default(0)
+  totalLines   Int        @default(0)
+  totalBytes   BigInt     @default(0)
+  totalFolders Int        @default(0)
+  languages    Json       @default("[]")
+  folders      Json       @default("[]")
+  largestFiles Json       @default("[]")
+  createdAt    DateTime   @default(now())
+
+  @@index([repositoryId, createdAt])
+}
+
+model CodeFile {
+  id           String     @id @default(uuid())
+  repositoryId String
+  repository   Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+  path         String
+  language     String
+  size         Int
+  lines        Int
+  complexity   Int        @default(0)
+  content      String?
+  symbols      Symbol[]
+  sourceDeps   Dependency[] @relation("SourceFile")
+  targetDeps   Dependency[] @relation("TargetFile")
+  createdAt    DateTime   @default(now())
+
+  @@unique([repositoryId, path])
+  @@index([repositoryId])
+}
+
+model Symbol {
+  id             String    @id @default(uuid())
+  fileId         String
+  file           CodeFile  @relation(fields: [fileId], references: [id], onDelete: Cascade)
+  name           String
+  type           String
+  line           Int
+  column         Int
+  parentSymbolId String?
+  parentSymbol   Symbol?   @relation("SymbolHierarchy", fields: [parentSymbolId], references: [id], onDelete: SetNull)
+  childSymbols   Symbol[]  @relation("SymbolHierarchy")
+  createdAt      DateTime  @default(now())
+
+  @@index([fileId])
+  @@index([name])
+  @@index([type])
+}
+
+model Dependency {
+  id             String    @id @default(uuid())
+  repositoryId   String
+  repository     Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+  sourceId       String
+  source         CodeFile  @relation("SourceFile", fields: [sourceId], references: [id], onDelete: Cascade)
+  targetId       String?
+  target         CodeFile? @relation("TargetFile", fields: [targetId], references: [id], onDelete: SetNull)
+  targetPath     String
+  type           String
+  createdAt      DateTime  @default(now())
+
+  @@index([repositoryId])
+  @@index([sourceId])
+  @@index([targetId])
+}
+
+model DocumentSummary {
+  id           String     @id @default(uuid())
+  repositoryId String
+  repository   Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+  entityType   String     // "repository", "architecture", "folder", "file"
+  entityId     String?    // path to file/folder, null for repository/architecture
+  content      String
+  model        String
+  createdAt    DateTime   @default(now())
+
+  @@index([repositoryId])
+}
+
+model DocumentChunk {
+  id           String     @id @default(uuid())
+  repositoryId String
+  repository   Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+  sourceType   String     // "code", "summary"
+  sourceId     String     // path or summary ID
+  content      String
+  embedding    Unsupported("vector(1536)")?
+  createdAt    DateTime   @default(now())
+
+  @@index([repositoryId])
+}
+
+model Conversation {
+  id           String        @id @default(uuid())
+  repositoryId String
+  repository   Repository    @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+  title        String
+  messages     ChatMessage[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@index([repositoryId])
+}
+
+model ChatMessage {
+  id             String       @id @default(uuid())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  role           String       // "user", "assistant", "system"
+  content        String
+  createdAt      DateTime     @default(now())
+
+  @@index([conversationId])
+}
+
+model PasswordResetToken {
+  id        String    @id @default(uuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId, expiresAt])
+}
+
+model Notification {
+  id           String      @id @default(uuid())
+  userId       String
+  user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  repositoryId String?
+  repository   Repository? @relation(fields: [repositoryId], references: [id], onDelete: SetNull)
+  type         String
+  title        String
+  body         String
+  readAt       DateTime?
+  createdAt    DateTime    @default(now())
+
+  @@index([userId, createdAt])
+  @@index([userId, readAt])
+}

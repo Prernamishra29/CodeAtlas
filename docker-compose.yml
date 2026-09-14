@@ -1,0 +1,95 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: codeatlas
+      POSTGRES_PASSWORD: codeatlas
+      POSTGRES_DB: codeatlas
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U codeatlas"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: ["sh", "-c", "npx prisma db push --skip-generate && node dist/main"]
+    env_file:
+      - ./backend/.env
+    environment:
+      DATABASE_URL: postgresql://codeatlas:codeatlas@postgres:5432/codeatlas?schema=public
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+      CORS_ORIGIN: http://localhost:8080,http://localhost:8081
+      FRONTEND_URL: http://localhost:8080
+      API_PUBLIC_URL: http://localhost:3333
+      PORT: "3333"
+      NODE_ENV: production
+    ports:
+      - "3333:3333"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3333/health/live').then((r)=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 8
+
+  worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: ["node", "dist/worker/main"]
+    env_file:
+      - ./backend/.env
+    environment:
+      DATABASE_URL: postgresql://codeatlas:codeatlas@postgres:5432/codeatlas?schema=public
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+      WORKER_CONCURRENCY: "2"
+      ANALYSIS_TMP_DIR: /tmp/codeatlas
+      NODE_ENV: production
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+      args:
+        VITE_API_URL: http://localhost:3333
+    environment:
+      VITE_API_URL: http://localhost:3333
+    ports:
+      - "8080:8080"
+    depends_on:
+      - api
+
+volumes:
+  postgres-data:
+  redis-data:

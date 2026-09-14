@@ -1,0 +1,1 @@
+ALTER TYPE public.repository_status RENAME VALUE 'ready' TO 'completed';

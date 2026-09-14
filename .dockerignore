@@ -1,0 +1,10 @@
+node_modules
+backend/node_modules
+dist
+.output
+.git
+.env
+backend/.env
+*.log
+coverage
+.tanstack
