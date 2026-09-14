@@ -140,7 +140,7 @@ function VisualPanel({ signup }: { signup: boolean }) {
   );
 }
 
-function FieldError({ message }: { message?: string }) {
+function FieldError({ message }: { message?: string | undefined }) {
   if (!message) return null;
   return <p className="text-xs text-rose-300">{message}</p>;
 }

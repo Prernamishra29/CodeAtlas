@@ -2,7 +2,7 @@ const TOKEN_KEY = "codeatlas_token";
 const REFRESH_KEY = "codeatlas_refresh";
 
 export const API_BASE_URL =
-  (import.meta.env.VITE_API_URL as string | undefined) || "http://localhost:3333";
+  (import.meta.env["VITE_API_URL"] as string | undefined) || "http://localhost:3333";
 
 export const IS_MOCK_API = false;
 

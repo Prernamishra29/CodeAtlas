@@ -5,8 +5,8 @@ import { useAuthStore } from "@/store/auth-store";
 export const Route = createFileRoute("/oauth/callback")({
   ssr: false,
   validateSearch: (search: Record<string, unknown>) => ({
-    accessToken: typeof search.accessToken === "string" ? search.accessToken : "",
-    refreshToken: typeof search.refreshToken === "string" ? search.refreshToken : "",
+    accessToken: typeof search["accessToken"] === "string" ? search["accessToken"] : "",
+    refreshToken: typeof search["refreshToken"] === "string" ? search["refreshToken"] : "",
   }),
   component: OauthCallbackPage,
 });

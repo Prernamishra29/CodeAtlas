@@ -39,7 +39,7 @@ function initials(name: string, email: string) {
 
 export function applyDensity(compact: boolean) {
   if (typeof document === "undefined") return;
-  document.documentElement.dataset.density = compact ? "compact" : "comfortable";
+  document.documentElement.dataset["density"] = compact ? "compact" : "comfortable";
 }
 
 function toAuthUser(user: AuthUserDto): AuthUser {

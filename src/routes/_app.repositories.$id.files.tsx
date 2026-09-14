@@ -8,7 +8,7 @@ import { repositoriesApi, type CodeFileRow } from "@/lib/api/repositories";
 
 export const Route = createFileRoute("/_app/repositories/$id/files")({
   validateSearch: (search: Record<string, unknown>) => ({
-    path: typeof search.path === "string" ? search.path : undefined,
+    path: typeof search["path"] === "string" ? search["path"] : undefined,
   }),
   component: FilesPage,
 });

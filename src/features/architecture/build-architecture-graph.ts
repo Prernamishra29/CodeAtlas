@@ -12,12 +12,14 @@ export function isArchitectureFile(path: string) {
 
 export function folderOf(path: string) {
   const parts = path.split("/").filter(Boolean);
-  if (parts.length < 2) return "(root)";
+  const first = parts[0];
+  const second = parts[1];
+  if (!first || parts.length < 2) return "(root)";
   const generic = new Set(["src", "app", "lib", "source"]);
-  if (generic.has(parts[0].toLowerCase()) && parts.length >= 2) {
-    return `${parts[0]}/${parts[1]}`;
+  if (generic.has(first.toLowerCase()) && second) {
+    return `${first}/${second}`;
   }
-  return parts[0];
+  return first;
 }
 
 function layer(folder: string) {

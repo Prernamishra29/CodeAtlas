@@ -216,9 +216,9 @@ export const getFilesFn = createServerFn({ method: "GET" })
   .handler(async ({ data, context }) => {
     // Prisma creates tables as "CodeFile", "Symbol"
     const { data: files, error } = await context.supabase
-      .from("CodeFile")
-      .select("*, symbols:Symbol(*)")
-      .eq("repositoryId", data.id)
+      .from("code_files")
+      .select("*, symbols(*)")
+      .eq("repository_id", data.id)
       .order("path");
 
     if (error) {
@@ -233,11 +233,11 @@ export const getDependenciesFn = createServerFn({ method: "GET" })
   .inputValidator((input: unknown) => idSchema.parse(input))
   .handler(async ({ data, context }) => {
     const { data: deps, error } = await context.supabase
-      .from("Dependency")
+      .from("dependencies")
       .select(
-        "*, source:CodeFile!Dependency_sourceId_fkey(*), target:CodeFile!Dependency_targetId_fkey(*)",
+        "*, source:code_files!dependencies_source_file_id_fkey(*), target:code_files!dependencies_target_file_id_fkey(*)",
       )
-      .eq("repositoryId", data.id);
+      .eq("repository_id", data.id);
 
     if (error) {
       console.error("Dependency error", error);

@@ -47,7 +47,7 @@ function GraphInner({
       <ReactFlow
         nodes={nodes}
         edges={edges}
-        nodeTypes={nodeTypes}
+        {...(nodeTypes ? { nodeTypes } : {})}
         fitView
         fitViewOptions={{ padding: 0.18 }}
         proOptions={{ hideAttribution: true }}

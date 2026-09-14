@@ -232,7 +232,7 @@ function RepositoriesPage() {
               <RepoListCard
                 key={repo.id}
                 repo={repo}
-                accent={rails[index % rails.length]}
+                accent={rails[index % rails.length] ?? "#C9A6FF"}
                 retrying={retry.isPending && retry.variables === repo.id}
                 onRetry={() => retry.mutate(repo.id)}
                 onDelete={() => remove.mutate(repo.id)}
