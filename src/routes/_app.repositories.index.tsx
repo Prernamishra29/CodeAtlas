@@ -1,6 +1,18 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Activity, ArrowRight, Github, LayoutDashboard, Loader2, MoreHorizontal, Plus, RotateCcw, Search, Trash2, Waypoints } from "lucide-react";
+import {
+  Activity,
+  ArrowRight,
+  Github,
+  LayoutDashboard,
+  Loader2,
+  MoreHorizontal,
+  Plus,
+  RotateCcw,
+  Search,
+  Trash2,
+  Waypoints,
+} from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { ErrorState } from "@/components/common/error-state";
@@ -15,7 +27,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRetryAnalysis } from "@/features/repositories/use-retry-analysis";
 import { repositoriesApi } from "@/lib/api/repositories";
@@ -26,7 +44,10 @@ export const Route = createFileRoute("/_app/repositories/")({
   head: () => ({
     meta: [
       { title: "Repositories — CodeAtlas" },
-      { name: "description", content: "Search, filter and manage the repositories in your CodeAtlas workspace." },
+      {
+        name: "description",
+        content: "Search, filter and manage the repositories in your CodeAtlas workspace.",
+      },
     ],
   }),
   component: RepositoriesPage,
@@ -73,7 +94,9 @@ function RepositoriesPage() {
     queryKey: ["repositories"],
     queryFn: repositoriesApi.list,
     refetchInterval: (q) =>
-      (q.state.data ?? []).some((r) => r.status === "queued" || r.status === "analyzing") ? 3000 : false,
+      (q.state.data ?? []).some((r) => r.status === "queued" || r.status === "analyzing")
+        ? 3000
+        : false,
   });
 
   const remove = useMutation({
@@ -98,7 +121,9 @@ function RepositoriesPage() {
   const rows = useMemo(() => {
     const filtered = all.filter((repo) => {
       const q = query.trim().toLowerCase();
-      const matchesQuery = `${repo.owner}/${repo.name} ${repo.description} ${repo.language}`.toLowerCase().includes(q);
+      const matchesQuery = `${repo.owner}/${repo.name} ${repo.description} ${repo.language}`
+        .toLowerCase()
+        .includes(q);
       const matchesStatus = status === "all" || repo.status === status;
       return matchesQuery && matchesStatus;
     });
@@ -116,7 +141,9 @@ function RepositoriesPage() {
       <div className="mx-auto max-w-4xl">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <h1 className="font-display text-3xl font-semibold tracking-tight text-white">Repositories</h1>
+            <h1 className="font-display text-3xl font-semibold tracking-tight text-white">
+              Repositories
+            </h1>
             <p className="mt-2 max-w-lg text-sm leading-relaxed text-white/65">
               {all.length === 0
                 ? "Import a GitHub repo to map it, score health, and generate docs."
@@ -131,7 +158,10 @@ function RepositoriesPage() {
 
         <div className="mt-8 flex flex-wrap items-center gap-2">
           <div className="relative min-w-56 flex-1">
-            <Search className="absolute left-3 top-1/2 size-3.5 -translate-y-1/2 text-white/40" aria-hidden />
+            <Search
+              className="absolute left-3 top-1/2 size-3.5 -translate-y-1/2 text-white/40"
+              aria-hidden
+            />
             <Input
               value={query}
               onChange={(event) => setQuery(event.target.value)}
@@ -141,7 +171,10 @@ function RepositoriesPage() {
             />
           </div>
           <Select value={status} onValueChange={(value) => setStatus(value as RepoStatus | "all")}>
-            <SelectTrigger className="w-40 border-white/10 bg-white/[0.07]" aria-label="Filter by status">
+            <SelectTrigger
+              className="w-40 border-white/10 bg-white/[0.07]"
+              aria-label="Filter by status"
+            >
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -153,7 +186,10 @@ function RepositoriesPage() {
             </SelectContent>
           </Select>
           <Select value={sort} onValueChange={(value) => setSort(value as typeof sort)}>
-            <SelectTrigger className="w-40 border-white/10 bg-white/[0.07]" aria-label="Sort repositories">
+            <SelectTrigger
+              className="w-40 border-white/10 bg-white/[0.07]"
+              aria-label="Sort repositories"
+            >
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -176,7 +212,9 @@ function RepositoriesPage() {
           </div>
         ) : rows.length === 0 ? (
           <div className="mt-8 rounded-[1.6rem] bg-white/[0.07] px-6 py-10 ring-1 ring-white/10">
-            <p className="font-medium text-white">{searching ? "Nothing matches" : "No repositories yet"}</p>
+            <p className="font-medium text-white">
+              {searching ? "Nothing matches" : "No repositories yet"}
+            </p>
             <p className="mt-2 max-w-md text-sm leading-relaxed text-white/55">
               {searching
                 ? "Try another name, owner, or status."
@@ -222,28 +260,41 @@ function RepoListCard({
 }) {
   const busy = repo.status === "queued" || repo.status === "analyzing";
   const analyzed = whenAnalyzed(repo.lastAnalyzedAt);
-  const health = repo.status === "completed" && repo.healthScore > 0 ? String(repo.healthScore) : "—";
+  const health =
+    repo.status === "completed" && repo.healthScore > 0 ? String(repo.healthScore) : "—";
 
   return (
     <li>
       <article className="group flex overflow-hidden rounded-[1.6rem] bg-white/[0.07] ring-1 ring-white/10 transition hover:bg-white/[0.1] hover:ring-white/16">
         <div className="w-1.5 shrink-0" style={{ background: accent }} aria-hidden />
         <div className="flex min-w-0 flex-1 items-stretch gap-3 p-4 sm:p-5">
-          <Link to="/repositories/$id" params={{ id: repo.id }} className="min-w-0 flex-1 cursor-pointer">
+          <Link
+            to="/repositories/$id"
+            params={{ id: repo.id }}
+            className="min-w-0 flex-1 cursor-pointer"
+          >
             <p className="flex items-center gap-2 text-[11px] text-white/45">
               <Github className="size-3 shrink-0" aria-hidden />
               <span className="truncate">{repo.owner}</span>
             </p>
-            <p className="mt-1 truncate font-display text-xl font-semibold tracking-tight text-white">{repo.name}</p>
+            <p className="mt-1 truncate font-display text-xl font-semibold tracking-tight text-white">
+              {repo.name}
+            </p>
             {repo.description ? (
-              <p className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-white/50">{repo.description}</p>
+              <p className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-white/50">
+                {repo.description}
+              </p>
             ) : null}
             <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-white/45">
               <span className="inline-flex items-center gap-1.5 text-white/70">
-                {busy ? <Loader2 className="size-3 animate-spin text-[#C9A6FF]" aria-hidden /> : null}
+                {busy ? (
+                  <Loader2 className="size-3 animate-spin text-[#C9A6FF]" aria-hidden />
+                ) : null}
                 {statusLine(repo.status)}
               </span>
-              {repo.language ? <span className="font-mono text-white/55">{repo.language}</span> : null}
+              {repo.language ? (
+                <span className="font-mono text-white/55">{repo.language}</span>
+              ) : null}
               {repo.stats.files > 0 ? (
                 <span>
                   {repo.stats.files} files · {repo.stats.linesOfCode.toLocaleString()} lines
@@ -298,7 +349,10 @@ function RepoListCard({
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator className="mx-2 my-1.5 bg-zinc-950/10" />
-                <DropdownMenuItem className={`${menuItem} text-rose-700 focus:bg-rose-50 focus:text-rose-800`} onSelect={onDelete}>
+                <DropdownMenuItem
+                  className={`${menuItem} text-rose-700 focus:bg-rose-50 focus:text-rose-800`}
+                  onSelect={onDelete}
+                >
                   <Trash2 className="size-4" />
                   Delete
                 </DropdownMenuItem>
@@ -312,8 +366,12 @@ function RepoListCard({
               className="flex items-center gap-2.5 rounded-[1.2rem] bg-[#F3EDE4] py-2 pl-3.5 pr-2 text-zinc-950 transition group-hover:-translate-y-0.5"
             >
               <span className="text-right">
-                <span className="block text-[9px] font-semibold uppercase tracking-[0.14em] text-zinc-500">Health</span>
-                <span className="font-display text-[1.55rem] font-semibold tabular-nums leading-none">{health}</span>
+                <span className="block text-[9px] font-semibold uppercase tracking-[0.14em] text-zinc-500">
+                  Health
+                </span>
+                <span className="font-display text-[1.55rem] font-semibold tabular-nums leading-none">
+                  {health}
+                </span>
               </span>
               <span className="flex size-9 items-center justify-center rounded-full bg-zinc-950 text-[#F3EDE4] transition group-hover:translate-x-0.5">
                 <ArrowRight className="size-4" strokeWidth={2.4} />

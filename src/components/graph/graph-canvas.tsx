@@ -68,7 +68,11 @@ function GraphInner({
           pannable
           zoomable
           maskColor="oklch(0.185 0.036 255 / 72%)"
-          style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 10 }}
+          style={{
+            background: "var(--surface)",
+            border: "1px solid var(--border)",
+            borderRadius: 10,
+          }}
           nodeColor={() => "oklch(0.78 0.16 305)"}
         />
         <Controls

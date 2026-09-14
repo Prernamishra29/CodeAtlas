@@ -1,6 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer } from "recharts";
+import {
+  PolarAngleAxis,
+  PolarGrid,
+  PolarRadiusAxis,
+  Radar,
+  RadarChart,
+  ResponsiveContainer,
+} from "recharts";
 import { PageTransition } from "@/components/common/page-transition";
 import { Skeleton } from "@/components/ui/skeleton";
 import { analysisApi } from "@/lib/api/analysis";
@@ -25,7 +32,10 @@ function barColor(score: number) {
 
 function HealthPage() {
   const { id } = Route.useParams();
-  const { data, isLoading } = useQuery({ queryKey: ["health", id], queryFn: () => analysisApi.health(id) });
+  const { data, isLoading } = useQuery({
+    queryKey: ["health", id],
+    queryFn: () => analysisApi.health(id),
+  });
 
   if (isLoading || !data) {
     return <Skeleton className="h-72 max-w-4xl rounded-[1.45rem]" />;
@@ -41,12 +51,15 @@ function HealthPage() {
   return (
     <PageTransition>
       <p className="mb-6 max-w-xl text-sm text-white/50">
-        Five scores out of 100. The ring at the top of the page is the overall. The shape shows where this repo is strong or thin.
+        Five scores out of 100. The ring at the top of the page is the overall. The shape shows
+        where this repo is strong or thin.
       </p>
 
       <div className="grid max-w-4xl gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
         <div className="rounded-[1.6rem] bg-[#F3EDE4] p-4 text-zinc-950">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-zinc-500">Shape</p>
+          <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-zinc-500">
+            Shape
+          </p>
           <div className="h-[280px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <RadarChart data={radar} cx="50%" cy="52%" outerRadius="72%">
@@ -74,7 +87,10 @@ function HealthPage() {
                 <span className="font-display text-lg tabular-nums text-white">{value}</span>
               </div>
               <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/10">
-                <div className="h-full rounded-full" style={{ width: `${value}%`, background: barColor(value) }} />
+                <div
+                  className="h-full rounded-full"
+                  style={{ width: `${value}%`, background: barColor(value) }}
+                />
               </div>
             </li>
           ))}
@@ -84,7 +100,9 @@ function HealthPage() {
       {hot.length > 0 ? (
         <div className="mt-4 max-w-4xl rounded-[1.6rem] bg-white/[0.07] p-5 ring-1 ring-white/10">
           <h2 className="text-sm font-semibold text-white">Heavier files</h2>
-          <p className="mt-1 text-sm text-white/50">Highest cyclomatic complexity in this analysis.</p>
+          <p className="mt-1 text-sm text-white/50">
+            Highest cyclomatic complexity in this analysis.
+          </p>
           <ul className="mt-4 space-y-3">
             {hot.map((item) => (
               <li key={item.module}>

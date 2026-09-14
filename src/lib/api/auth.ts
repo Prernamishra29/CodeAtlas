@@ -35,7 +35,11 @@ export interface AccountStats {
   questions: number;
 }
 
-async function storeSession(result: { user: AuthUserDto; accessToken: string; refreshToken?: string }) {
+async function storeSession(result: {
+  user: AuthUserDto;
+  accessToken: string;
+  refreshToken?: string;
+}) {
   setAccessToken(result.accessToken);
   if (result.refreshToken) setRefreshToken(result.refreshToken);
   return result.user;
@@ -43,7 +47,11 @@ async function storeSession(result: { user: AuthUserDto; accessToken: string; re
 
 export const authApi = {
   async login(payload: Credentials) {
-    const result = await apiRequest<{ user: AuthUserDto; accessToken: string; refreshToken?: string }>("/auth/login", {
+    const result = await apiRequest<{
+      user: AuthUserDto;
+      accessToken: string;
+      refreshToken?: string;
+    }>("/auth/login", {
       method: "POST",
       body: JSON.stringify(payload),
     });
@@ -51,13 +59,14 @@ export const authApi = {
   },
 
   async register(payload: RegisterPayload) {
-    const result = await apiRequest<{ user: AuthUserDto; accessToken: string; refreshToken?: string }>(
-      "/auth/register",
-      {
-        method: "POST",
-        body: JSON.stringify(payload),
-      },
-    );
+    const result = await apiRequest<{
+      user: AuthUserDto;
+      accessToken: string;
+      refreshToken?: string;
+    }>("/auth/register", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    });
     return storeSession(result);
   },
 

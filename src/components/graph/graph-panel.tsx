@@ -16,9 +16,16 @@ export function GraphPanel({
   className?: string;
 }) {
   return (
-    <div className={cn("overflow-hidden rounded-[1.45rem] bg-white/[0.07] ring-1 ring-white/10", className)}>
+    <div
+      className={cn(
+        "overflow-hidden rounded-[1.45rem] bg-white/[0.07] ring-1 ring-white/10",
+        className,
+      )}
+    >
       {toolbar ? (
-        <div className="flex flex-wrap items-center gap-2 border-b border-white/10 px-4 py-3">{toolbar}</div>
+        <div className="flex flex-wrap items-center gap-2 border-b border-white/10 px-4 py-3">
+          {toolbar}
+        </div>
       ) : null}
       <div className="grid lg:grid-cols-[1fr_300px]">
         <div style={{ height }} className="relative border-white/10 lg:border-r">

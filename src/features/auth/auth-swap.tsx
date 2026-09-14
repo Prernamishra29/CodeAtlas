@@ -51,7 +51,9 @@ function oauthErrorFromSearch(search: unknown) {
 export function AuthSwap({ mode }: { mode: "login" | "register" }) {
   const signup = mode === "register";
   const clearError = useAuthStore((s) => s.clearError);
-  const oauthError = oauthErrorFromSearch(useRouterState({ select: (state) => state.location.search }));
+  const oauthError = oauthErrorFromSearch(
+    useRouterState({ select: (state) => state.location.search }),
+  );
 
   useEffect(() => {
     clearError();
@@ -59,14 +61,28 @@ export function AuthSwap({ mode }: { mode: "login" | "register" }) {
 
   return (
     <div className="min-h-dvh bg-[#1c1c22] p-4 lg:p-5">
-      <div className={`flex min-h-[calc(100dvh-2.5rem)] flex-col gap-4 lg:flex-row ${signup ? "lg:flex-row-reverse" : ""}`}>
-        <motion.aside layout transition={swap} className="relative hidden min-h-[320px] flex-1 overflow-hidden lg:block">
+      <div
+        className={`flex min-h-[calc(100dvh-2.5rem)] flex-col gap-4 lg:flex-row ${signup ? "lg:flex-row-reverse" : ""}`}
+      >
+        <motion.aside
+          layout
+          transition={swap}
+          className="relative hidden min-h-[320px] flex-1 overflow-hidden lg:block"
+        >
           <VisualPanel signup={signup} />
         </motion.aside>
 
-        <motion.section layout transition={swap} className="flex flex-1 items-center justify-center rounded-[1.75rem] bg-white/[0.06] ring-1 ring-white/10">
+        <motion.section
+          layout
+          transition={swap}
+          className="flex flex-1 items-center justify-center rounded-[1.75rem] bg-white/[0.06] ring-1 ring-white/10"
+        >
           <div className="w-full max-w-[26rem] px-6 pb-10 pt-12 sm:px-10">
-            <Link to="/" className="mb-8 mt-1 inline-flex items-center lg:hidden" aria-label="CodeAtlas home">
+            <Link
+              to="/"
+              className="mb-8 mt-1 inline-flex items-center lg:hidden"
+              aria-label="CodeAtlas home"
+            >
               <BrandMark size="lg" />
             </Link>
             <AnimatePresence mode="wait" initial={false}>
@@ -90,9 +106,18 @@ export function AuthSwap({ mode }: { mode: "login" | "register" }) {
 function VisualPanel({ signup }: { signup: boolean }) {
   return (
     <div className="relative flex h-full flex-col overflow-hidden rounded-[1.75rem] bg-[#F3EDE4] px-10 pb-10 pt-16 text-zinc-950">
-      <div className="pointer-events-none absolute -left-16 bottom-0 size-72 rounded-full bg-[#C9A6FF]/70 blur-2xl" aria-hidden />
-      <div className="pointer-events-none absolute -right-10 top-10 size-56 rounded-full bg-[#5eead4]/50 blur-2xl" aria-hidden />
-      <div className="pointer-events-none absolute right-24 bottom-24 size-40 rounded-full bg-[#f9a8d4]/50 blur-2xl" aria-hidden />
+      <div
+        className="pointer-events-none absolute -left-16 bottom-0 size-72 rounded-full bg-[#C9A6FF]/70 blur-2xl"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute -right-10 top-10 size-56 rounded-full bg-[#5eead4]/50 blur-2xl"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute right-24 bottom-24 size-40 rounded-full bg-[#f9a8d4]/50 blur-2xl"
+        aria-hidden
+      />
 
       <Link to="/" className="relative z-10 mt-1 flex items-center" aria-label="CodeAtlas home">
         <BrandMark size="xl" variant="onLight" />
@@ -122,7 +147,10 @@ function FieldError({ message }: { message?: string }) {
 
 function Alert({ children }: { children: string }) {
   return (
-    <p role="alert" className="flex items-start gap-2 rounded-2xl bg-rose-500/15 px-3 py-2.5 text-sm text-rose-200">
+    <p
+      role="alert"
+      className="flex items-start gap-2 rounded-2xl bg-rose-500/15 px-3 py-2.5 text-sm text-rose-200"
+    >
       <AlertCircle className="mt-0.5 size-4 shrink-0" aria-hidden />
       {children}
     </p>
@@ -153,8 +181,7 @@ function SocialRow() {
         </a>
       </div>
       <p className="mt-3 text-center text-[11px] leading-relaxed text-white/35">
-        GitHub login needs the API on :3333 and an OAuth App callback
-        {" "}
+        GitHub login needs the API on :3333 and an OAuth App callback{" "}
         <span className="text-white/50">http://localhost:3333/auth/github/callback</span>
       </p>
     </>
@@ -204,11 +231,19 @@ function LoginForm({ banner }: { banner: string | null }) {
       <div className="space-y-1.5">
         <div className="flex items-center justify-between">
           <Label htmlFor="password">Password</Label>
-          <Link to="/forgot-password" className="text-xs font-medium text-[#C9A6FF] hover:underline">
+          <Link
+            to="/forgot-password"
+            className="text-xs font-medium text-[#C9A6FF] hover:underline"
+          >
             Forgot password?
           </Link>
         </div>
-        <PasswordInput id="password" autoComplete="current-password" className={field} {...form.register("password")} />
+        <PasswordInput
+          id="password"
+          autoComplete="current-password"
+          className={field}
+          {...form.register("password")}
+        />
         <FieldError message={form.formState.errors.password?.message} />
       </div>
       <Button type="submit" disabled={isSubmitting} className="h-12 w-full">
@@ -256,7 +291,13 @@ function RegisterForm({ banner }: { banner: string | null }) {
       {error ? <Alert>{error}</Alert> : null}
       <div className="space-y-1.5">
         <Label htmlFor="name">Name</Label>
-        <Input id="name" autoComplete="name" placeholder="Your name" className={field} {...form.register("name")} />
+        <Input
+          id="name"
+          autoComplete="name"
+          placeholder="Your name"
+          className={field}
+          {...form.register("name")}
+        />
         <FieldError message={form.formState.errors.name?.message} />
       </div>
       <div className="space-y-1.5">
@@ -273,11 +314,20 @@ function RegisterForm({ banner }: { banner: string | null }) {
       </div>
       <div className="space-y-1.5">
         <Label htmlFor="reg-password">Password</Label>
-        <PasswordInput id="reg-password" autoComplete="new-password" className={field} {...form.register("password")} />
+        <PasswordInput
+          id="reg-password"
+          autoComplete="new-password"
+          className={field}
+          {...form.register("password")}
+        />
         <FieldError message={form.formState.errors.password?.message} />
       </div>
       <label className="flex items-start gap-2 text-sm text-white/60">
-        <input type="checkbox" className="mt-0.5 size-4 rounded border-white/20 bg-transparent" {...form.register("terms")} />
+        <input
+          type="checkbox"
+          className="mt-0.5 size-4 rounded border-white/20 bg-transparent"
+          {...form.register("terms")}
+        />
         <span>
           I agree to the <span className="underline decoration-white/30">Terms & Privacy</span>
         </span>
@@ -301,10 +351,22 @@ function RegisterForm({ banner }: { banner: string | null }) {
 function GoogleMark() {
   return (
     <svg viewBox="0 0 24 24" className="size-4" aria-hidden>
-      <path fill="#EA4335" d="M12 10.2v3.6h5.1c-.2 1.2-.9 2.3-1.9 3l3.1 2.4c1.8-1.7 2.8-4.1 2.8-7 0-.7-.1-1.3-.2-1.9H12z" />
-      <path fill="#34A853" d="M6.6 14.4l-.9.7-2.4 1.9C5 19.6 8.2 21.6 12 21.6c2.4 0 4.4-.8 5.9-2.1l-3.1-2.4c-.9.6-2 1-2.8 1-2.2 0-4-1.5-4.7-3.5z" />
-      <path fill="#FBBC05" d="M3.3 7.1C2.5 8.6 2 10.2 2 12s.5 3.4 1.3 4.9l3.3-2.6C6.2 13.4 6 12.7 6 12s.2-1.4.6-2.3z" />
-      <path fill="#4285F4" d="M12 6c1.3 0 2.5.5 3.4 1.3l2.5-2.5C16.4 3.4 14.4 2.4 12 2.4 8.2 2.4 5 4.4 3.3 7.1l3.3 2.6C8 7.7 9.8 6 12 6z" />
+      <path
+        fill="#EA4335"
+        d="M12 10.2v3.6h5.1c-.2 1.2-.9 2.3-1.9 3l3.1 2.4c1.8-1.7 2.8-4.1 2.8-7 0-.7-.1-1.3-.2-1.9H12z"
+      />
+      <path
+        fill="#34A853"
+        d="M6.6 14.4l-.9.7-2.4 1.9C5 19.6 8.2 21.6 12 21.6c2.4 0 4.4-.8 5.9-2.1l-3.1-2.4c-.9.6-2 1-2.8 1-2.2 0-4-1.5-4.7-3.5z"
+      />
+      <path
+        fill="#FBBC05"
+        d="M3.3 7.1C2.5 8.6 2 10.2 2 12s.5 3.4 1.3 4.9l3.3-2.6C6.2 13.4 6 12.7 6 12s.2-1.4.6-2.3z"
+      />
+      <path
+        fill="#4285F4"
+        d="M12 6c1.3 0 2.5.5 3.4 1.3l2.5-2.5C16.4 3.4 14.4 2.4 12 2.4 8.2 2.4 5 4.4 3.3 7.1l3.3 2.6C8 7.7 9.8 6 12 6z"
+      />
     </svg>
   );
 }

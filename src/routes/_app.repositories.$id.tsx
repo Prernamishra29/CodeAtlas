@@ -1,6 +1,13 @@
 import { useEffect, useRef } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createFileRoute, Link, Outlet, notFound, useRouter, useRouterState } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  Link,
+  Outlet,
+  notFound,
+  useRouter,
+  useRouterState,
+} from "@tanstack/react-router";
 import { ExternalLink, GitBranch, Play, RotateCcw, XCircle } from "lucide-react";
 import { toast } from "sonner";
 import { AnalysisProgress } from "@/components/common/analysis-progress";
@@ -25,10 +32,7 @@ export const Route = createFileRoute("/_app/repositories/$id")({
           { property: "og:title", content: `${loaderData.repository.name} — CodeAtlas` },
           { property: "og:description", content: loaderData.repository.description },
         ]
-      : [
-          { title: "Repository unavailable — CodeAtlas" },
-          { name: "robots", content: "noindex" },
-        ],
+      : [{ title: "Repository unavailable — CodeAtlas" }, { name: "robots", content: "noindex" }],
   }),
   component: RepositoryLayout,
   notFoundComponent: RepositoryNotFound,
@@ -146,7 +150,9 @@ function RepositoryLayout() {
 
         <div className="flex flex-wrap items-end gap-4">
           <div className="rounded-[1.35rem] bg-[#F3EDE4] px-5 py-4 text-zinc-950">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-zinc-500">Health / 100</p>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-zinc-500">
+              Health / 100
+            </p>
             <p className="mt-1 font-display text-4xl font-semibold tabular-nums leading-none">
               {repository.healthScore === 0 ? "—" : repository.healthScore}
             </p>
@@ -193,7 +199,10 @@ function RepositoryLayout() {
         <p className="mt-5 text-sm text-rose-300">Analysis failed. Use Retry to queue it again.</p>
       ) : null}
 
-      <nav aria-label="Repository sections" className="mt-8 overflow-x-auto border-b border-white/10">
+      <nav
+        aria-label="Repository sections"
+        className="mt-8 overflow-x-auto border-b border-white/10"
+      >
         <ul className="flex min-w-max gap-1">
           {tabs.map((tab) => {
             const href = `/repositories/${id}${tab.segment ? `/${tab.segment}` : ""}`;

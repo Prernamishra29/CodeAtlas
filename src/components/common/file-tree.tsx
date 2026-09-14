@@ -8,7 +8,15 @@ export interface FileNode {
   children?: FileNode[];
 }
 
-function TreeItem({ node, depth, onSelect }: { node: FileNode; depth: number; onSelect?: ((path: string) => void) | undefined }) {
+function TreeItem({
+  node,
+  depth,
+  onSelect,
+}: {
+  node: FileNode;
+  depth: number;
+  onSelect?: ((path: string) => void) | undefined;
+}) {
   const [open, setOpen] = useState(depth < 2);
   const isFolder = Boolean(node.children?.length);
 
@@ -22,7 +30,10 @@ function TreeItem({ node, depth, onSelect }: { node: FileNode; depth: number; on
         style={{ paddingLeft: `${depth * 14 + 8}px` }}
       >
         {isFolder ? (
-          <ChevronRight className={cn("size-3.5 transition-transform", open && "rotate-90")} aria-hidden />
+          <ChevronRight
+            className={cn("size-3.5 transition-transform", open && "rotate-90")}
+            aria-hidden
+          />
         ) : (
           <span className="w-3.5" aria-hidden />
         )}
@@ -54,7 +65,10 @@ export function FileTree({
   className?: string;
 }) {
   return (
-    <nav aria-label="File tree" className={cn("rounded-[1.45rem] bg-white/[0.07] p-2 ring-1 ring-white/10", className)}>
+    <nav
+      aria-label="File tree"
+      className={cn("rounded-[1.45rem] bg-white/[0.07] p-2 ring-1 ring-white/10", className)}
+    >
       <ul>
         {nodes.map((node) => (
           <TreeItem key={node.name} node={node} depth={0} onSelect={onSelect} />

@@ -56,7 +56,9 @@ export function MeshDeck() {
             <card.icon className="relative size-6" aria-hidden />
             <div className="relative">
               <p className="font-display text-4xl font-extrabold tracking-tight">{card.metric}</p>
-              <p className="mt-1 text-[11px] font-semibold uppercase tracking-[0.16em] opacity-65">{card.unit}</p>
+              <p className="mt-1 text-[11px] font-semibold uppercase tracking-[0.16em] opacity-65">
+                {card.unit}
+              </p>
               <p className="mt-3 font-display text-lg font-bold">{card.title}</p>
             </div>
           </div>

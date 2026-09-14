@@ -41,7 +41,10 @@ export interface ArchitectureGraph {
   }>;
 }
 
-export function buildFolderArchitecture(files: CodeFileRow[], deps: DependencyRow[]): ArchitectureGraph {
+export function buildFolderArchitecture(
+  files: CodeFileRow[],
+  deps: DependencyRow[],
+): ArchitectureGraph {
   const sourceFiles = files.filter((file) => isArchitectureFile(file.path));
   const grouped = new Map<string, CodeFileRow[]>();
   for (const file of sourceFiles) {
@@ -129,7 +132,10 @@ export function buildFolderArchitecture(files: CodeFileRow[], deps: DependencyRo
   return { nodes, edges, folders };
 }
 
-export function buildFileArchitecture(files: CodeFileRow[], deps: DependencyRow[]): { nodes: GraphNode[]; edges: Edge[] } {
+export function buildFileArchitecture(
+  files: CodeFileRow[],
+  deps: DependencyRow[],
+): { nodes: GraphNode[]; edges: Edge[] } {
   const connected = new Set<string>();
   for (const dep of deps) {
     if (!dep.targetId) continue;
@@ -137,7 +143,9 @@ export function buildFileArchitecture(files: CodeFileRow[], deps: DependencyRow[
     connected.add(dep.targetId);
   }
   const picked = files
-    .filter((file) => isArchitectureFile(file.path) && (connected.has(file.id) || file.complexity > 4))
+    .filter(
+      (file) => isArchitectureFile(file.path) && (connected.has(file.id) || file.complexity > 4),
+    )
     .slice(0, 36);
 
   const byFolder = new Map<string, CodeFileRow[]>();

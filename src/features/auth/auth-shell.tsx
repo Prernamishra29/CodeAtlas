@@ -2,7 +2,8 @@ import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { BrandMark } from "@/components/common/brand-mark";
 
-export const authField = "h-11 rounded-2xl border-white/10 bg-white/[0.07] text-white placeholder:text-white/35";
+export const authField =
+  "h-11 rounded-2xl border-white/10 bg-white/[0.07] text-white placeholder:text-white/35";
 
 export function AuthShell({
   title,

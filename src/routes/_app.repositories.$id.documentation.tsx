@@ -41,21 +41,36 @@ function DocMarkdown({ content }: { content: string }) {
         remarkPlugins={[remarkGfm]}
         components={{
           h1: ({ children }) => (
-            <h3 className="mb-2 mt-5 font-display text-base font-semibold text-white first:mt-0">{children}</h3>
+            <h3 className="mb-2 mt-5 font-display text-base font-semibold text-white first:mt-0">
+              {children}
+            </h3>
           ),
           h2: ({ children }) => (
-            <h3 className="mb-2 mt-5 font-display text-base font-semibold text-white first:mt-0">{children}</h3>
+            <h3 className="mb-2 mt-5 font-display text-base font-semibold text-white first:mt-0">
+              {children}
+            </h3>
           ),
           h3: ({ children }) => (
             <h4 className="mb-1.5 mt-4 text-sm font-semibold text-white first:mt-0">{children}</h4>
           ),
           p: ({ children }) => <p className="mb-3 last:mb-0">{children}</p>,
-          ul: ({ children }) => <ul className="mb-3 list-disc space-y-1 pl-5 last:mb-0">{children}</ul>,
-          ol: ({ children }) => <ol className="mb-3 list-decimal space-y-1 pl-5 last:mb-0">{children}</ol>,
+          ul: ({ children }) => (
+            <ul className="mb-3 list-disc space-y-1 pl-5 last:mb-0">{children}</ul>
+          ),
+          ol: ({ children }) => (
+            <ol className="mb-3 list-decimal space-y-1 pl-5 last:mb-0">{children}</ol>
+          ),
           li: ({ children }) => <li className="text-white/75">{children}</li>,
-          strong: ({ children }) => <strong className="font-semibold text-white">{children}</strong>,
+          strong: ({ children }) => (
+            <strong className="font-semibold text-white">{children}</strong>
+          ),
           a: ({ href, children }) => (
-            <a href={href} className="text-[#C9A6FF] underline-offset-2 hover:underline" target="_blank" rel="noreferrer">
+            <a
+              href={href}
+              className="text-[#C9A6FF] underline-offset-2 hover:underline"
+              target="_blank"
+              rel="noreferrer"
+            >
               {children}
             </a>
           ),
@@ -65,10 +80,18 @@ function DocMarkdown({ content }: { content: string }) {
             const inline = !className && !text.includes("\n");
             if (inline) {
               return (
-                <code className="rounded-md bg-black/30 px-1.5 py-0.5 font-mono text-[12px] text-[#E2C9FF]">{text}</code>
+                <code className="rounded-md bg-black/30 px-1.5 py-0.5 font-mono text-[12px] text-[#E2C9FF]">
+                  {text}
+                </code>
               );
             }
-            return <CodeBlock code={text} language={className?.replace("language-", "") ?? "ts"} className="my-3" />;
+            return (
+              <CodeBlock
+                code={text}
+                language={className?.replace("language-", "") ?? "ts"}
+                className="my-3"
+              />
+            );
           },
         }}
       >
@@ -80,7 +103,10 @@ function DocMarkdown({ content }: { content: string }) {
 
 function DocumentationPage() {
   const { id } = Route.useParams();
-  const docs = useQuery({ queryKey: ["documentation", id], queryFn: () => repositoriesApi.documentation(id) });
+  const docs = useQuery({
+    queryKey: ["documentation", id],
+    queryFn: () => repositoriesApi.documentation(id),
+  });
   const sections = docs.data ?? [];
 
   const groups = useMemo(() => {
@@ -105,7 +131,9 @@ function DocumentationPage() {
           aria-label="Documentation sections"
           className="h-fit rounded-[1.45rem] bg-white/[0.07] p-4 ring-1 ring-white/10 lg:sticky lg:top-20"
         >
-          <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/40">Contents</p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/40">
+            Contents
+          </p>
           {sections.length === 0 ? (
             <p className="mt-3 text-sm text-white/50">Nothing generated yet.</p>
           ) : (
@@ -133,7 +161,9 @@ function DocumentationPage() {
 
         <div className="min-w-0 space-y-8">
           <div>
-            <h2 className="font-display text-xl font-semibold text-white">Generated documentation</h2>
+            <h2 className="font-display text-xl font-semibold text-white">
+              Generated documentation
+            </h2>
             <p className="mt-1 text-sm text-white/55">
               Written from this codebase after analysis. Jump with the list on the left.
             </p>
@@ -141,7 +171,8 @@ function DocumentationPage() {
 
           {sections.length === 0 ? (
             <div className="rounded-[1.45rem] bg-white/[0.07] p-6 text-sm text-white/55 ring-1 ring-white/10">
-              After analysis finishes, summaries for the repo, architecture, folders, modules, and files show up here.
+              After analysis finishes, summaries for the repo, architecture, folders, modules, and
+              files show up here.
             </div>
           ) : (
             groups.map((group) => (
@@ -160,10 +191,14 @@ function DocumentationPage() {
                         {typeMeta[section.entityType]?.badge ?? section.entityType}
                       </span>
                       {section.entityId ? (
-                        <span className="truncate font-mono text-[11px] text-white/40">{section.entityId}</span>
+                        <span className="truncate font-mono text-[11px] text-white/40">
+                          {section.entityId}
+                        </span>
                       ) : null}
                     </div>
-                    <h4 className="font-display text-lg font-semibold text-white">{heading(section)}</h4>
+                    <h4 className="font-display text-lg font-semibold text-white">
+                      {heading(section)}
+                    </h4>
                     <div className="mt-4">
                       <DocMarkdown content={section.content} />
                     </div>

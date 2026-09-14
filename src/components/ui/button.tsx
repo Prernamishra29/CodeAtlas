@@ -11,7 +11,8 @@ const buttonVariants = cva(
       variant: {
         default:
           "rounded-full bg-violet text-zinc-950 shadow-[0_8px_28px_-8px_oklch(0.78_0.16_305_/_55%)] hover:scale-[1.03] hover:bg-violet/90 active:scale-[0.98]",
-        destructive: "rounded-full bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+        destructive:
+          "rounded-full bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:
           "rounded-full border border-white/15 bg-transparent shadow-none hover:border-violet/50 hover:bg-white/5 hover:text-foreground",
         secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",

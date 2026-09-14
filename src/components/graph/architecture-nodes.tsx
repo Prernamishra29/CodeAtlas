@@ -14,11 +14,19 @@ export function ArchFolderNode({ data, selected }: NodeProps<GraphNode>) {
         selected && "ring-2 ring-[#C9A6FF]",
       )}
     >
-      <Handle type="target" position={Position.Left} className="!size-2.5 !border-0 !bg-[#C9A6FF]" />
+      <Handle
+        type="target"
+        position={Position.Left}
+        className="!size-2.5 !border-0 !bg-[#C9A6FF]"
+      />
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-white/40">Folder</p>
-          <p className="mt-0.5 truncate font-display text-[15px] font-semibold text-white">{data.label}</p>
+          <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-white/40">
+            Folder
+          </p>
+          <p className="mt-0.5 truncate font-display text-[15px] font-semibold text-white">
+            {data.label}
+          </p>
         </div>
         <span
           className={cn(
@@ -33,7 +41,11 @@ export function ArchFolderNode({ data, selected }: NodeProps<GraphNode>) {
         {count} {count === 1 ? "file" : "files"}
         {langs ? ` · ${langs}` : ""}
       </p>
-      <Handle type="source" position={Position.Right} className="!size-2.5 !border-0 !bg-[#C9A6FF]" />
+      <Handle
+        type="source"
+        position={Position.Right}
+        className="!size-2.5 !border-0 !bg-[#C9A6FF]"
+      />
     </div>
   );
 }
@@ -50,7 +62,9 @@ export function ArchFileNode({ data, selected }: NodeProps<GraphNode>) {
     >
       <Handle type="target" position={Position.Left} className="!size-2 !border-0 !bg-[#C9A6FF]" />
       <p className="truncate font-mono text-xs font-medium text-white">{data.label}</p>
-      <p className="mt-0.5 truncate text-[11px] text-white/45">{external ? "npm package" : data.kind}</p>
+      <p className="mt-0.5 truncate text-[11px] text-white/45">
+        {external ? "npm package" : data.kind}
+      </p>
       <Handle type="source" position={Position.Right} className="!size-2 !border-0 !bg-[#C9A6FF]" />
     </div>
   );

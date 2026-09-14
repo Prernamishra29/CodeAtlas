@@ -72,14 +72,24 @@ function ResetPasswordPage() {
         {error ? <p className="text-sm text-red-300">{error}</p> : null}
         <div className="space-y-1.5">
           <Label htmlFor="password">New password</Label>
-          <PasswordInput id="password" autoComplete="new-password" className={authField} {...form.register("password")} />
+          <PasswordInput
+            id="password"
+            autoComplete="new-password"
+            className={authField}
+            {...form.register("password")}
+          />
           {form.formState.errors.password ? (
             <p className="text-xs text-red-300">{form.formState.errors.password.message}</p>
           ) : null}
         </div>
         <div className="space-y-1.5">
           <Label htmlFor="confirm">Confirm</Label>
-          <PasswordInput id="confirm" autoComplete="new-password" className={authField} {...form.register("confirm")} />
+          <PasswordInput
+            id="confirm"
+            autoComplete="new-password"
+            className={authField}
+            {...form.register("confirm")}
+          />
           {form.formState.errors.confirm ? (
             <p className="text-xs text-red-300">{form.formState.errors.confirm.message}</p>
           ) : null}

@@ -50,7 +50,10 @@ function SearchPage() {
 
         <div className="mt-5 rounded-[1.6rem] bg-white/[0.07] p-4 ring-1 ring-white/10 sm:p-5">
           <div className="relative">
-            <SearchIcon className="absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-white/40" aria-hidden />
+            <SearchIcon
+              className="absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-white/40"
+              aria-hidden
+            />
             <Input
               value={query}
               onChange={(event) => setQuery(event.target.value)}
@@ -121,7 +124,9 @@ function SearchPage() {
                       {result.line ? `:${result.line}` : ""}
                     </span>
                     {result.description ? (
-                      <span className="mt-2 block text-sm leading-relaxed text-white/60">{result.description}</span>
+                      <span className="mt-2 block text-sm leading-relaxed text-white/60">
+                        {result.description}
+                      </span>
                     ) : null}
                   </span>
                   <ArrowRight className="mt-2 size-4 shrink-0 text-[#C9A6FF] opacity-70 transition group-hover:translate-x-0.5 group-hover:opacity-100" />

@@ -34,7 +34,10 @@ function citationPath(href?: string) {
 function ChatPage() {
   const { id } = Route.useParams();
   const queryClient = useQueryClient();
-  const conversations = useQuery({ queryKey: ["conversations", id], queryFn: () => chatApi.conversations(id) });
+  const conversations = useQuery({
+    queryKey: ["conversations", id],
+    queryFn: () => chatApi.conversations(id),
+  });
   const [activeId, setActiveId] = useState<string | null>(null);
   const [draft, setDraft] = useState("");
   const [messages, setMessages] = useState<ChatMessage[] | null>(null);
@@ -195,7 +198,9 @@ function ChatPage() {
         <section className="flex min-h-[520px] flex-col rounded-[1.6rem] bg-white/[0.07] ring-1 ring-white/10">
           <div className="border-b border-white/10 px-5 py-3.5">
             <h2 className="text-sm font-semibold text-white">Ask this repo</h2>
-            <p className="mt-0.5 text-xs text-white/45">Answers come from files and docs we already parsed.</p>
+            <p className="mt-0.5 text-xs text-white/45">
+              Answers come from files and docs we already parsed.
+            </p>
           </div>
 
           <div className="flex-1 space-y-3 overflow-y-auto p-4 sm:p-5">
@@ -240,7 +245,12 @@ function ChatPage() {
                               const path = citationPath(href);
                               if (!path) {
                                 return (
-                                  <a href={href} className="text-[#C9A6FF] underline" target="_blank" rel="noreferrer">
+                                  <a
+                                    href={href}
+                                    className="text-[#C9A6FF] underline"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                  >
                                     {children}
                                   </a>
                                 );
@@ -261,9 +271,18 @@ function ChatPage() {
                               const text = String(children).replace(/\n$/, "");
                               const inline = !className && !text.includes("\n");
                               if (inline) {
-                                return <code className="rounded bg-white/10 px-1 py-0.5 font-mono text-xs">{text}</code>;
+                                return (
+                                  <code className="rounded bg-white/10 px-1 py-0.5 font-mono text-xs">
+                                    {text}
+                                  </code>
+                                );
                               }
-                              return <CodeBlock code={text} language={className?.replace("language-", "") ?? "ts"} />;
+                              return (
+                                <CodeBlock
+                                  code={text}
+                                  language={className?.replace("language-", "") ?? "ts"}
+                                />
+                              );
                             },
                           }}
                         >
@@ -320,7 +339,13 @@ function ChatPage() {
                 }
               }}
             />
-            <Button type="submit" size="icon" aria-label="Send message" disabled={isPending} className="size-11 shrink-0">
+            <Button
+              type="submit"
+              size="icon"
+              aria-label="Send message"
+              disabled={isPending}
+              className="size-11 shrink-0"
+            >
               <Send className="size-4" />
             </Button>
           </form>

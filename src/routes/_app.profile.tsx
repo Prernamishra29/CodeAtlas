@@ -36,7 +36,9 @@ function ProfilePage() {
             {user?.initials ?? "?"}
           </span>
           <div className="min-w-0 flex-1">
-            <h1 className="font-display text-2xl font-semibold tracking-tight">{user?.name ?? "Guest"}</h1>
+            <h1 className="font-display text-2xl font-semibold tracking-tight">
+              {user?.name ?? "Guest"}
+            </h1>
             <p className="mt-1 text-sm text-zinc-600">
               {user?.role || "Member"} · {user?.email}
             </p>
@@ -51,12 +53,17 @@ function ProfilePage() {
 
         <ul className="grid gap-3 sm:grid-cols-3">
           {cards.map((card) => (
-            <li key={card.label} className="rounded-[1.45rem] bg-white/[0.07] px-4 py-5 ring-1 ring-white/10">
+            <li
+              key={card.label}
+              className="rounded-[1.45rem] bg-white/[0.07] px-4 py-5 ring-1 ring-white/10"
+            >
               <p className="text-xs text-white/50">{card.label}</p>
               {stats.isLoading ? (
                 <Skeleton className="mt-2 h-8 w-14" />
               ) : (
-                <p className="mt-1 font-display text-3xl font-semibold tabular-nums text-white">{card.value ?? 0}</p>
+                <p className="mt-1 font-display text-3xl font-semibold tabular-nums text-white">
+                  {card.value ?? 0}
+                </p>
               )}
             </li>
           ))}
@@ -64,7 +71,8 @@ function ProfilePage() {
 
         <div className="rounded-[1.45rem] bg-white/[0.07] p-5 ring-1 ring-white/10">
           <p className="text-sm text-white/60">
-            This is your workspace count — repos you imported, analyses that finished, and questions you asked in chat.
+            This is your workspace count — repos you imported, analyses that finished, and questions
+            you asked in chat.
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
             <Button asChild size="sm" variant="outline">

@@ -6,7 +6,12 @@ import { folderOf, isArchitectureFile } from "@/features/architecture/build-arch
 
 export function packageName(targetPath: string) {
   const trimmed = targetPath.trim().replace(/^["']|["']$/g, "");
-  if (!trimmed || trimmed.startsWith(".") || trimmed.startsWith("/") || trimmed.startsWith("node:")) {
+  if (
+    !trimmed ||
+    trimmed.startsWith(".") ||
+    trimmed.startsWith("/") ||
+    trimmed.startsWith("node:")
+  ) {
     return null;
   }
   if (trimmed.startsWith("@")) {
@@ -32,7 +37,9 @@ export function buildDependencyGraph(
   const q = query.trim().toLowerCase();
   const fileById = new Map(files.map((file) => [file.id, file]));
 
-  const internal = deps.filter((dep) => dep.targetId && fileById.has(dep.sourceId) && fileById.has(dep.targetId));
+  const internal = deps.filter(
+    (dep) => dep.targetId && fileById.has(dep.sourceId) && fileById.has(dep.targetId),
+  );
   const external = deps.filter((dep) => !dep.targetId && packageName(dep.targetPath));
 
   const packageUses = new Map<string, number>();
@@ -62,7 +69,9 @@ export function buildDependencyGraph(
   picked = picked.slice(0, 40);
 
   const visible = new Set(picked.map((file) => file.id));
-  const topPackages = packages.filter((item) => !q || item.name.toLowerCase().includes(q)).slice(0, 10);
+  const topPackages = packages
+    .filter((item) => !q || item.name.toLowerCase().includes(q))
+    .slice(0, 10);
 
   const byFolder = new Map<string, CodeFileRow[]>();
   for (const file of picked) {
@@ -109,7 +118,12 @@ export function buildDependencyGraph(
       id: dep.id,
       source: dep.sourceId,
       target: dep.targetId!,
-      markerEnd: { type: MarkerType.ArrowClosed, width: 14, height: 14, color: "oklch(0.72 0.12 250)" },
+      markerEnd: {
+        type: MarkerType.ArrowClosed,
+        width: 14,
+        height: 14,
+        color: "oklch(0.72 0.12 250)",
+      },
       style: { stroke: "oklch(0.72 0.12 250)", strokeWidth: 1.3 },
     }));
 
@@ -122,7 +136,12 @@ export function buildDependencyGraph(
       id: `ext-${dep.id}`,
       source: dep.sourceId,
       target: `pkg:${name}`,
-      markerEnd: { type: MarkerType.ArrowClosed, width: 14, height: 14, color: "oklch(0.65 0.02 260)" },
+      markerEnd: {
+        type: MarkerType.ArrowClosed,
+        width: 14,
+        height: 14,
+        color: "oklch(0.65 0.02 260)",
+      },
       style: { stroke: "oklch(0.65 0.02 260)", strokeWidth: 1.1 },
     });
   }

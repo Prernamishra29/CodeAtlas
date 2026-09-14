@@ -2,13 +2,7 @@ import type { ActivityEvent, HealthBreakdown, Insight } from "@/types";
 import { apiRequest } from "./client";
 
 export type AnalysisState =
-  | "queued"
-  | "cloning"
-  | "scanning"
-  | "analyzing"
-  | "completed"
-  | "failed"
-  | "cancelled";
+  "queued" | "cloning" | "scanning" | "analyzing" | "completed" | "failed" | "cancelled";
 
 export interface AnalysisMetricsRow {
   total_files: number;
@@ -107,7 +101,9 @@ export const analysisApi = {
     return apiRequest(`/repositories/${repositoryId}/analyses/${analysisId}`, { method: "DELETE" });
   },
   async latest(repositoryId: string) {
-    const row = await apiRequest<NestAnalysis | null>(`/repositories/${repositoryId}/analyses/latest`);
+    const row = await apiRequest<NestAnalysis | null>(
+      `/repositories/${repositoryId}/analyses/latest`,
+    );
     return mapAnalysis(row);
   },
   async history(repositoryId: string) {

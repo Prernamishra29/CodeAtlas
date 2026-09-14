@@ -11,14 +11,7 @@
  */
 
 export type SymbolType =
-  | "function"
-  | "class"
-  | "method"
-  | "interface"
-  | "type"
-  | "import"
-  | "export"
-  | "call";
+  "function" | "class" | "method" | "interface" | "type" | "import" | "export" | "call";
 
 export interface ParsedSymbol {
   name: string;
@@ -63,11 +56,64 @@ export function isParseable(language: string) {
 const MAX_CALLS_PER_FILE = 400;
 
 const RESERVED_CALLS = new Set([
-  "if","for","while","switch","catch","return","function","typeof","new","await","case",
-  "do","else","super","this","import","export","print","def","class","try","except","with",
-  "range","len","in","not","and","or","go","defer","make","chan","select","func","var","let",
-  "const","require","interface","type","struct","package","public","private","protected","static",
-  "throw","yield","delete","void","instanceof","elif","lambda","assert","raise","from","as",
+  "if",
+  "for",
+  "while",
+  "switch",
+  "catch",
+  "return",
+  "function",
+  "typeof",
+  "new",
+  "await",
+  "case",
+  "do",
+  "else",
+  "super",
+  "this",
+  "import",
+  "export",
+  "print",
+  "def",
+  "class",
+  "try",
+  "except",
+  "with",
+  "range",
+  "len",
+  "in",
+  "not",
+  "and",
+  "or",
+  "go",
+  "defer",
+  "make",
+  "chan",
+  "select",
+  "func",
+  "var",
+  "let",
+  "const",
+  "require",
+  "interface",
+  "type",
+  "struct",
+  "package",
+  "public",
+  "private",
+  "protected",
+  "static",
+  "throw",
+  "yield",
+  "delete",
+  "void",
+  "instanceof",
+  "elif",
+  "lambda",
+  "assert",
+  "raise",
+  "from",
+  "as",
 ]);
 
 /** Replaces comment and string contents with spaces, preserving line structure. */
@@ -232,7 +278,8 @@ const C_LIKE_RULES: Rule[] = [
   { pattern: /\benum\s+([A-Za-z_$][\w$]*)/g, type: "type" },
   { pattern: /\bfunction\s*\*?\s*([A-Za-z_$][\w$]*)\s*[(<]/g, type: "function", measured: true },
   {
-    pattern: /\b(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*(?::[^=;]+)?=\s*(?:async\s*)?(?:function\b|\([^)]*\)\s*(?::[^=>]+)?=>|[A-Za-z_$][\w$]*\s*=>)/g,
+    pattern:
+      /\b(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*(?::[^=;]+)?=\s*(?:async\s*)?(?:function\b|\([^)]*\)\s*(?::[^=>]+)?=>|[A-Za-z_$][\w$]*\s*=>)/g,
     type: "function",
     measured: true,
   },
@@ -265,13 +312,27 @@ function classRegions(source: string, rules: RegExp[]): Region[] {
 
 /** Methods inside a class body (C-like languages, incl. Java and TS classes). */
 const METHOD_PATTERN =
-  /(?:^|\n)[ \t]*(?:@[\w.]+\s*(?:\([^)]*\))?\s*)*(?:public|private|protected|static|final|abstract|readonly|async|override|synchronized|native|\*)?[ \t]*(?:(?:public|private|protected|static|final|abstract|readonly|async|override|synchronized)[ \t]+)*(?:[A-Za-z_$][\w$<>,.[\]?]*[ \t]+)?([A-Za-z_$][\w$]*)[ \t]*\([^;{)]*\)[ \t]*(?:[:\-][^;{]*)?\{/g;
+  /(?:^|\n)[ \t]*(?:@[\w.]+\s*(?:\([^)]*\))?\s*)*(?:public|private|protected|static|final|abstract|readonly|async|override|synchronized|native|\*)?[ \t]*(?:(?:public|private|protected|static|final|abstract|readonly|async|override|synchronized)[ \t]+)*(?:[A-Za-z_$][\w$<>,.[\]?]*[ \t]+)?([A-Za-z_$][\w$]*)[ \t]*\([^;{)]*\)[ \t]*(?:[-:][^;{]*)?\{/g;
 
 const METHOD_EXCLUDE = new Set([
-  "if","for","while","switch","catch","do","else","return","new","function","try","synchronized",
+  "if",
+  "for",
+  "while",
+  "switch",
+  "catch",
+  "do",
+  "else",
+  "return",
+  "new",
+  "function",
+  "try",
+  "synchronized",
 ]);
 
-function extractCLike(source: string, language: string): { symbols: ParsedSymbol[]; imports: ParsedImport[] } {
+function extractCLike(
+  source: string,
+  language: string,
+): { symbols: ParsedSymbol[]; imports: ParsedImport[] } {
   const symbols: ParsedSymbol[] = [];
   const imports: ParsedImport[] = [];
   const starts = lineStarts(source);
@@ -281,7 +342,9 @@ function extractCLike(source: string, language: string): { symbols: ParsedSymbol
 
   const containers = classRegions(
     source,
-    isGo ? [/\btype\s+([A-Za-z_][\w]*)\s+struct\b/] : [/\b(?:class|record|enum)\s+([A-Za-z_$][\w$]*)/],
+    isGo
+      ? [/\btype\s+([A-Za-z_][\w]*)\s+struct\b/]
+      : [/\b(?:class|record|enum)\s+([A-Za-z_$][\w$]*)/],
   );
 
   const push = (
@@ -330,7 +393,8 @@ function extractCLike(source: string, language: string): { symbols: ParsedSymbol
       const index = match.index + match[0].indexOf(name);
       const parent = parentAt(containers, index);
       if (!parent && !isJava) continue;
-      if (symbols.some((symbol) => symbol.name === name && symbol.line === lineOf(starts, index))) continue;
+      if (symbols.some((symbol) => symbol.name === name && symbol.line === lineOf(starts, index)))
+        continue;
       const body = braceBody(source, match.index + match[0].length - 1);
       const complexity = body ? complexityOf(source.slice(body.start, body.end)) : 1;
       push(name, parent ? "method" : "function", index, complexity, parent);
@@ -395,7 +459,11 @@ function extractCLike(source: string, language: string): { symbols: ParsedSymbol
     let block: RegExpExecArray | null;
     while ((block = named.exec(source))) {
       for (const raw of block[1]!.split(",")) {
-        const name = raw.trim().split(/\s+as\s+/).pop()?.trim();
+        const name = raw
+          .trim()
+          .split(/\s+as\s+/)
+          .pop()
+          ?.trim();
         if (name) push(name, "export", block.index, 0, null);
       }
     }
@@ -453,7 +521,15 @@ function extractPython(source: string): { symbols: ParsedSymbol[]; imports: Pars
         parent: parent?.kind === "class" ? parent.name : null,
         complexity: complexityOf(body),
       });
-      if (!parent) symbols.push({ name: def[1]!, type: "export", line, column: 1, parent: null, complexity: 0 });
+      if (!parent)
+        symbols.push({
+          name: def[1]!,
+          type: "export",
+          line,
+          column: 1,
+          parent: null,
+          complexity: 0,
+        });
       stack.push({ name: def[1]!, indent, kind: "function" });
       return;
     }
@@ -477,7 +553,14 @@ function extractPython(source: string): { symbols: ParsedSymbol[]; imports: Pars
     const specifier = from?.[1] ?? plain?.[1];
     if (specifier) {
       imports.push({ specifier, line });
-      symbols.push({ name: specifier, type: "import", line, column: 1, parent: null, complexity: 0 });
+      symbols.push({
+        name: specifier,
+        type: "import",
+        line,
+        column: 1,
+        parent: null,
+        complexity: 0,
+      });
     }
 
     const alias = /^([A-Za-z_]\w*)\s*(?::\s*[^=]+)?=\s*(?:TypeVar|NewType|TypeAlias)/.exec(trimmed);
@@ -510,7 +593,14 @@ function extractCalls(source: string, language: string, functions: ParsedSymbol[
       language === "Python"
         ? (findPythonParent(functions, line) ?? null)
         : (findRangeParent(functions, source, index) ?? null);
-    calls.push({ name, type: "call", line, column: index - starts[line - 1]! + 1, parent, complexity: 0 });
+    calls.push({
+      name,
+      type: "call",
+      line,
+      column: index - starts[line - 1]! + 1,
+      parent,
+      complexity: 0,
+    });
   }
   return calls;
 }
@@ -543,7 +633,9 @@ export function parseSource(path: string, language: string, content: string): Pa
   const { symbols, imports } =
     language === "Python" ? extractPython(source) : extractCLike(source, language);
 
-  const callable = symbols.filter((symbol) => symbol.type === "function" || symbol.type === "method");
+  const callable = symbols.filter(
+    (symbol) => symbol.type === "function" || symbol.type === "method",
+  );
   const calls = extractCalls(source, language, symbols);
   const all = [...symbols, ...calls];
 

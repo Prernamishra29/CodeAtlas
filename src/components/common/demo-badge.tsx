@@ -1,6 +1,12 @@
 import { cn } from "@/lib/utils";
 
-export function DemoBadge({ className, label = "Demo data" }: { className?: string; label?: string }) {
+export function DemoBadge({
+  className,
+  label = "Demo data",
+}: {
+  className?: string;
+  label?: string;
+}) {
   return (
     <span
       className={cn(

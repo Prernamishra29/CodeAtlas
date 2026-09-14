@@ -58,6 +58,8 @@ export function HealthPill({ score }: { score: number }) {
           ? "text-warning"
           : "text-destructive";
   return (
-    <span className={cn("font-mono text-sm tabular-nums", tone)}>{score === 0 ? "—" : `${score}`}</span>
+    <span className={cn("font-mono text-sm tabular-nums", tone)}>
+      {score === 0 ? "—" : `${score}`}
+    </span>
   );
 }

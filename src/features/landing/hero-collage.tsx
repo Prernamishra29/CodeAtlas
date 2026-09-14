@@ -46,7 +46,9 @@ export function HeroCollage() {
               <card.icon className="relative size-4" aria-hidden />
               <div className="relative">
                 <p className="font-display text-xl font-semibold leading-none">{card.metric}</p>
-                <p className="mt-0.5 text-[9px] font-semibold uppercase tracking-[0.14em] opacity-60">{card.unit}</p>
+                <p className="mt-0.5 text-[9px] font-semibold uppercase tracking-[0.14em] opacity-60">
+                  {card.unit}
+                </p>
                 <p className="mt-1 text-[12px] font-semibold">{card.title}</p>
               </div>
             </div>

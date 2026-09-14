@@ -20,7 +20,8 @@ export function parseGithubUrl(raw: string) {
     throw new GithubUrlError("That repository URL is not valid.");
   }
 
-  if (parsed.protocol !== "https:") throw new GithubUrlError("Use an https://github.com/owner/repo URL.");
+  if (parsed.protocol !== "https:")
+    throw new GithubUrlError("Use an https://github.com/owner/repo URL.");
   if (parsed.username || parsed.password) {
     throw new GithubUrlError("Repository URLs must not include credentials.");
   }
@@ -32,11 +33,17 @@ export function parseGithubUrl(raw: string) {
   }
 
   const segments = parsed.pathname.replace(/\/+$/, "").split("/").filter(Boolean);
-  if (segments.length !== 2) throw new GithubUrlError("Use the form https://github.com/user/project");
+  if (segments.length !== 2)
+    throw new GithubUrlError("Use the form https://github.com/user/project");
 
   const owner = segments[0]!.replace(/\.git$/i, "");
   const name = segments[1]!.replace(/\.git$/i, "");
-  if (!OWNER_REPO.test(owner) || !OWNER_REPO.test(name) || owner.includes("..") || name.includes("..")) {
+  if (
+    !OWNER_REPO.test(owner) ||
+    !OWNER_REPO.test(name) ||
+    owner.includes("..") ||
+    name.includes("..")
+  ) {
     throw new GithubUrlError("Use the form https://github.com/user/project");
   }
 

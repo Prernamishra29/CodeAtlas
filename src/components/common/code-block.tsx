@@ -27,7 +27,12 @@ export function CodeBlock({
   };
 
   return (
-    <figure className={cn("overflow-hidden rounded-[1.45rem] bg-white/[0.07] ring-1 ring-white/10", className)}>
+    <figure
+      className={cn(
+        "overflow-hidden rounded-[1.45rem] bg-white/[0.07] ring-1 ring-white/10",
+        className,
+      )}
+    >
       <div className="flex items-center justify-between border-b border-white/10 bg-white/5 px-3 py-2">
         <figcaption className="truncate font-mono text-xs text-white/70">
           {filename ?? `snippet.${language}`}

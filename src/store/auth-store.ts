@@ -1,6 +1,12 @@
 import { create } from "zustand";
 import type { AuthUser } from "@/types";
-import { authApi, type AuthUserDto, type Credentials, type ProfileUpdate, type RegisterPayload } from "@/lib/api/auth";
+import {
+  authApi,
+  type AuthUserDto,
+  type Credentials,
+  type ProfileUpdate,
+  type RegisterPayload,
+} from "@/lib/api/auth";
 import { getAccessToken, setAccessToken, setRefreshToken } from "@/lib/api/client";
 
 interface AuthState {

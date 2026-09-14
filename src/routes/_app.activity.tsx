@@ -41,9 +41,12 @@ function ActivityPage() {
       <div className="mx-auto max-w-3xl">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
-            <h1 className="font-display text-3xl font-semibold tracking-tight text-white">Activity</h1>
+            <h1 className="font-display text-3xl font-semibold tracking-tight text-white">
+              Activity
+            </h1>
             <p className="mt-2 max-w-lg text-sm leading-relaxed text-white/60">
-              Analysis finished, failed, or docs generated. Email is sent only when SMTP or Resend is configured.
+              Analysis finished, failed, or docs generated. Email is sent only when SMTP or Resend
+              is configured.
             </p>
           </div>
           {list.some((item) => !item.readAt) ? (

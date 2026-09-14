@@ -13,8 +13,14 @@ const langPaint = ["#C9A6FF", "#5eead4", "#fdba74", "#f9a8d4", "#67e8f9"];
 function RepositoryOverview() {
   const { repository } = RepositoryRoute.useLoaderData();
   const { id } = Route.useParams();
-  const insights = useQuery({ queryKey: ["insights", id], queryFn: () => analysisApi.insights(id) });
-  const languages = useQuery({ queryKey: ["languages", id], queryFn: () => analysisApi.languages(id) });
+  const insights = useQuery({
+    queryKey: ["insights", id],
+    queryFn: () => analysisApi.insights(id),
+  });
+  const languages = useQuery({
+    queryKey: ["languages", id],
+    queryFn: () => analysisApi.languages(id),
+  });
   const langs = (languages.data ?? []).slice(0, 5);
   const notes = (insights.data ?? []).slice(0, 4);
   const langTotal = langs.reduce((sum, lang) => sum + lang.value, 0) || 1;
@@ -31,9 +37,14 @@ function RepositoryOverview() {
       <div className="max-w-5xl space-y-6">
         <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           {stats.map((stat) => (
-            <li key={stat.label} className="rounded-2xl bg-white/[0.07] px-4 py-4 ring-1 ring-white/10">
+            <li
+              key={stat.label}
+              className="rounded-2xl bg-white/[0.07] px-4 py-4 ring-1 ring-white/10"
+            >
               <p className="text-xs text-white/55">{stat.label}</p>
-              <p className="mt-1 font-display text-3xl font-semibold tabular-nums text-white">{stat.value}</p>
+              <p className="mt-1 font-display text-3xl font-semibold tabular-nums text-white">
+                {stat.value}
+              </p>
             </li>
           ))}
         </ul>
@@ -60,7 +71,10 @@ function RepositoryOverview() {
                 </div>
                 <ul className="mt-4 space-y-2.5">
                   {langs.map((lang, index) => (
-                    <li key={lang.name} className="flex items-center justify-between gap-3 text-sm text-white/85">
+                    <li
+                      key={lang.name}
+                      className="flex items-center justify-between gap-3 text-sm text-white/85"
+                    >
                       <span className="flex items-center gap-2">
                         <span
                           className="size-2.5 rounded-full"

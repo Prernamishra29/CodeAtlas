@@ -15,10 +15,19 @@ export function HealthRing({
   const clamped = Math.max(0, Math.min(100, score));
   const offset = circ - (clamped / 100) * circ;
   const tone =
-    score === 0 ? "var(--muted-foreground)" : score >= 80 ? "var(--success)" : score >= 65 ? "var(--warning)" : "var(--destructive)";
+    score === 0
+      ? "var(--muted-foreground)"
+      : score >= 80
+        ? "var(--success)"
+        : score >= 65
+          ? "var(--warning)"
+          : "var(--destructive)";
 
   return (
-    <div className={cn("relative inline-flex items-center justify-center", className)} style={{ width: size, height: size }}>
+    <div
+      className={cn("relative inline-flex items-center justify-center", className)}
+      style={{ width: size, height: size }}
+    >
       <svg width={size} height={size} className="-rotate-90" aria-hidden>
         <circle
           cx={size / 2}
@@ -38,10 +47,19 @@ export function HealthRing({
           strokeLinecap="round"
           strokeDasharray={circ}
           strokeDashoffset={offset}
-          style={{ filter: `drop-shadow(0 0 8px ${tone})`, transition: "stroke-dashoffset 0.6s ease" }}
+          style={{
+            filter: `drop-shadow(0 0 8px ${tone})`,
+            transition: "stroke-dashoffset 0.6s ease",
+          }}
         />
       </svg>
-      <span className={cn("absolute font-display font-semibold tabular-nums", size >= 120 ? "text-3xl" : size >= 64 ? "text-sm" : "text-[11px]")} style={{ color: tone }}>
+      <span
+        className={cn(
+          "absolute font-display font-semibold tabular-nums",
+          size >= 120 ? "text-3xl" : size >= 64 ? "text-sm" : "text-[11px]",
+        )}
+        style={{ color: tone }}
+      >
         {score === 0 ? "—" : score}
       </span>
     </div>

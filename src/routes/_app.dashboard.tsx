@@ -26,7 +26,9 @@ function DashboardPage() {
     queryKey: ["repositories"],
     queryFn: repositoriesApi.list,
     refetchInterval: (q) =>
-      (q.state.data ?? []).some((r) => r.status === "queued" || r.status === "analyzing") ? 3000 : false,
+      (q.state.data ?? []).some((r) => r.status === "queued" || r.status === "analyzing")
+        ? 3000
+        : false,
   });
 
   const repos = repositories.data ?? [];
@@ -39,8 +41,8 @@ function DashboardPage() {
           {name ? `Hi ${name}` : "Overview"}
         </h1>
         <p className="mt-2 max-w-xl text-sm leading-relaxed text-white/70">
-          These are the GitHub repos you imported. Each window is one repository. Health is out of 100.
-          Click a window to open its architecture map, health report, and AI chat.
+          These are the GitHub repos you imported. Each window is one repository. Health is out of
+          100. Click a window to open its architecture map, health report, and AI chat.
         </p>
 
         {repositories.isLoading ? (
@@ -48,7 +50,8 @@ function DashboardPage() {
         ) : repos.length === 0 ? (
           <div className="mt-10">
             <p className="text-sm leading-relaxed text-white/50">
-              Paste a GitHub URL with Import. CodeAtlas will map the code and give it a health score.
+              Paste a GitHub URL with Import. CodeAtlas will map the code and give it a health
+              score.
             </p>
             <Button className="mt-4" size="sm" onClick={() => setImportModalOpen(true)}>
               Import a repository

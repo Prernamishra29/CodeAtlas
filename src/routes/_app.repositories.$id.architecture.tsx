@@ -25,8 +25,14 @@ function ArchitecturePage() {
   const { selectedNodeId, selectNode } = useRepositoryStore();
   const [mode, setMode] = useState<"folders" | "files">("folders");
 
-  const filesQuery = useQuery({ queryKey: ["files", id], queryFn: () => repositoriesApi.getFiles(id) });
-  const depsQuery = useQuery({ queryKey: ["deps", id], queryFn: () => repositoriesApi.getDependencies(id) });
+  const filesQuery = useQuery({
+    queryKey: ["files", id],
+    queryFn: () => repositoriesApi.getFiles(id),
+  });
+  const depsQuery = useQuery({
+    queryKey: ["deps", id],
+    queryFn: () => repositoriesApi.getDependencies(id),
+  });
 
   const files = filesQuery.data ?? [];
   const deps = depsQuery.data ?? [];
@@ -49,7 +55,8 @@ function ArchitecturePage() {
     <PageTransition>
       <div className="mb-5 max-w-2xl">
         <p className="text-sm leading-relaxed text-white/65">
-          Boxes are folders. Lilac arrows are imports between them. Click a box — the list on the right shows what is inside.
+          Boxes are folders. Lilac arrows are imports between them. Click a box — the list on the
+          right shows what is inside.
         </p>
         {!loading && folderCount > 0 ? (
           <p className="mt-2 text-sm text-white/45">
@@ -68,7 +75,9 @@ function ArchitecturePage() {
               <button
                 type="button"
                 className={`rounded-full px-3 py-1 text-xs font-medium ${
-                  mode === "folders" ? "bg-[#C9A6FF] text-zinc-950" : "text-white/70 hover:text-white"
+                  mode === "folders"
+                    ? "bg-[#C9A6FF] text-zinc-950"
+                    : "text-white/70 hover:text-white"
                 }`}
                 onClick={() => {
                   setMode("folders");
@@ -95,8 +104,12 @@ function ArchitecturePage() {
         side={
           selectedFolder ? (
             <div>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/40">Inside this folder</p>
-              <h3 className="mt-1 font-display text-lg font-semibold text-white">{selectedFolder.name}</h3>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/40">
+                Inside this folder
+              </p>
+              <h3 className="mt-1 font-display text-lg font-semibold text-white">
+                {selectedFolder.name}
+              </h3>
               <p className="mt-1 text-sm text-white/50">
                 {selectedFolder.files.length} files · {inbound} in · {outbound} out
               </p>
@@ -117,8 +130,12 @@ function ArchitecturePage() {
             </div>
           ) : selectedFile ? (
             <div>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/40">{selectedFile.language}</p>
-              <h3 className="mt-1 font-mono text-sm font-semibold text-white">{selectedFile.path.split("/").pop()}</h3>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/40">
+                {selectedFile.language}
+              </p>
+              <h3 className="mt-1 font-mono text-sm font-semibold text-white">
+                {selectedFile.path.split("/").pop()}
+              </h3>
               <p className="mt-1 text-xs text-white/45">{selectedFile.path}</p>
               <dl className="mt-4 space-y-2 text-xs">
                 <div className="flex justify-between border-b border-white/10 pb-2">
@@ -135,14 +152,20 @@ function ArchitecturePage() {
                 </div>
               </dl>
               <Button asChild size="sm" className="mt-4">
-                <Link to="/repositories/$id/files" params={{ id }} search={{ path: selectedFile.path }}>
+                <Link
+                  to="/repositories/$id/files"
+                  params={{ id }}
+                  search={{ path: selectedFile.path }}
+                >
                   Open file
                 </Link>
               </Button>
             </div>
           ) : (
             <div className="rounded-[1.2rem] bg-[#F3EDE4] p-4 text-zinc-950">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-zinc-500">Start here</p>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-zinc-500">
+                Start here
+              </p>
               <p className="mt-2 text-sm leading-relaxed">
                 Click a folder on the map. You will see its files here, then you can open one.
               </p>
@@ -156,10 +179,17 @@ function ArchitecturePage() {
           </div>
         ) : graph.nodes.length === 0 ? (
           <div className="grid h-full place-items-center p-6 text-center">
-            <p className="text-sm text-white/55">No source files to map yet. Run analysis, then come back here.</p>
+            <p className="text-sm text-white/55">
+              No source files to map yet. Run analysis, then come back here.
+            </p>
           </div>
         ) : (
-          <GraphCanvas nodes={graph.nodes} edges={graph.edges} onNodeSelect={selectNode} nodeTypes={nodeTypes} />
+          <GraphCanvas
+            nodes={graph.nodes}
+            edges={graph.edges}
+            onNodeSelect={selectNode}
+            nodeTypes={nodeTypes}
+          />
         )}
       </GraphPanel>
     </PageTransition>

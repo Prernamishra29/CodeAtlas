@@ -1,7 +1,8 @@
 const TOKEN_KEY = "codeatlas_token";
 const REFRESH_KEY = "codeatlas_refresh";
 
-export const API_BASE_URL = (import.meta.env.VITE_API_URL as string | undefined) || "http://localhost:3333";
+export const API_BASE_URL =
+  (import.meta.env.VITE_API_URL as string | undefined) || "http://localhost:3333";
 
 export const IS_MOCK_API = false;
 
@@ -61,7 +62,11 @@ async function refreshSession() {
 
 function shouldAttemptRefresh(path: string, status: number) {
   if (status !== 401) return false;
-  return !path.startsWith("/auth/login") && !path.startsWith("/auth/register") && !path.startsWith("/auth/refresh");
+  return (
+    !path.startsWith("/auth/login") &&
+    !path.startsWith("/auth/register") &&
+    !path.startsWith("/auth/refresh")
+  );
 }
 
 export async function apiRequest<T>(path: string, init: RequestInit = {}): Promise<T> {
@@ -79,7 +84,8 @@ export async function apiRequest<T>(path: string, init: RequestInit = {}): Promi
     const ok = await refreshInFlight;
     if (ok) {
       const retryHeaders = new Headers(init.headers);
-      if (init.body && !retryHeaders.has("Content-Type")) retryHeaders.set("Content-Type", "application/json");
+      if (init.body && !retryHeaders.has("Content-Type"))
+        retryHeaders.set("Content-Type", "application/json");
       const next = getAccessToken();
       if (next) retryHeaders.set("Authorization", `Bearer ${next}`);
       response = await fetch(`${API_BASE_URL}${path}`, { ...init, headers: retryHeaders });

@@ -167,13 +167,15 @@ export const demoInsights: Insight[] = [
   {
     id: "i1",
     title: "Authentication logic is duplicated",
-    detail: "Session validation appears in 4 modules across api and web. Consolidate into one guard.",
+    detail:
+      "Session validation appears in 4 modules across api and web. Consolidate into one guard.",
     severity: "warning",
   },
   {
     id: "i2",
     title: "Ledger boundaries are clean",
-    detail: "ledger-service has no inbound imports from presentation layers — a healthy separation.",
+    detail:
+      "ledger-service has no inbound imports from presentation layers — a healthy separation.",
     severity: "success",
   },
   {
@@ -272,13 +274,61 @@ export const demoSearchResults: SearchResult[] = [
 ];
 
 export const demoDependencies: DependencyNodeData[] = [
-  { id: "d1", name: "react", version: "19.2.0", type: "runtime", size: "142 kB", usedBy: 312, risk: "low" },
-  { id: "d2", name: "zod", version: "3.24.2", type: "runtime", size: "58 kB", usedBy: 96, risk: "low" },
-  { id: "d3", name: "lodash", version: "4.17.20", type: "runtime", size: "531 kB", usedBy: 41, risk: "high" },
-  { id: "d4", name: "@atlas/ui", version: "2.4.1", type: "internal", size: "212 kB", usedBy: 188, risk: "low" },
-  { id: "d5", name: "axios", version: "0.27.2", type: "runtime", size: "44 kB", usedBy: 62, risk: "medium" },
+  {
+    id: "d1",
+    name: "react",
+    version: "19.2.0",
+    type: "runtime",
+    size: "142 kB",
+    usedBy: 312,
+    risk: "low",
+  },
+  {
+    id: "d2",
+    name: "zod",
+    version: "3.24.2",
+    type: "runtime",
+    size: "58 kB",
+    usedBy: 96,
+    risk: "low",
+  },
+  {
+    id: "d3",
+    name: "lodash",
+    version: "4.17.20",
+    type: "runtime",
+    size: "531 kB",
+    usedBy: 41,
+    risk: "high",
+  },
+  {
+    id: "d4",
+    name: "@atlas/ui",
+    version: "2.4.1",
+    type: "internal",
+    size: "212 kB",
+    usedBy: 188,
+    risk: "low",
+  },
+  {
+    id: "d5",
+    name: "axios",
+    version: "0.27.2",
+    type: "runtime",
+    size: "44 kB",
+    usedBy: 62,
+    risk: "medium",
+  },
   { id: "d6", name: "vitest", version: "3.1.0", type: "dev", size: "—", usedBy: 24, risk: "low" },
-  { id: "d7", name: "moment", version: "2.29.1", type: "runtime", size: "290 kB", usedBy: 9, risk: "high" },
+  {
+    id: "d7",
+    name: "moment",
+    version: "2.29.1",
+    type: "runtime",
+    size: "290 kB",
+    usedBy: 9,
+    risk: "high",
+  },
 ];
 
 export const demoConversations: Conversation[] = [
@@ -337,7 +387,10 @@ export const demoFileTree = [
       {
         name: "modules",
         children: [
-          { name: "auth", children: [{ name: "auth.controller.ts" }, { name: "session.service.ts" }] },
+          {
+            name: "auth",
+            children: [{ name: "auth.controller.ts" }, { name: "session.service.ts" }],
+          },
           { name: "billing", children: [{ name: "payment.processor.ts" }] },
         ],
       },

@@ -143,8 +143,33 @@ function countLines(text: string) {
 }
 
 const BINARY_EXTENSIONS = new Set([
-  "png","jpg","jpeg","gif","webp","ico","pdf","zip","gz","tgz","woff","woff2","ttf","eot",
-  "mp3","mp4","mov","avi","wasm","so","dll","exe","jar","class","bin","lock","pyc",
+  "png",
+  "jpg",
+  "jpeg",
+  "gif",
+  "webp",
+  "ico",
+  "pdf",
+  "zip",
+  "gz",
+  "tgz",
+  "woff",
+  "woff2",
+  "ttf",
+  "eot",
+  "mp3",
+  "mp4",
+  "mov",
+  "avi",
+  "wasm",
+  "so",
+  "dll",
+  "exe",
+  "jar",
+  "class",
+  "bin",
+  "lock",
+  "pyc",
 ]);
 
 function looksBinary(path: string) {

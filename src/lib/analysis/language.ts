@@ -3,14 +3,7 @@
  * Shared by the edge analyzer and the standalone worker.
  */
 
-export const IGNORED_SEGMENTS = [
-  "node_modules",
-  ".git",
-  "dist",
-  "build",
-  "coverage",
-  "vendor",
-];
+export const IGNORED_SEGMENTS = ["node_modules", ".git", "dist", "build", "coverage", "vendor"];
 
 export function isIgnoredPath(path: string): boolean {
   const segments = path.split("/");

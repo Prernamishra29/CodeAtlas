@@ -31,7 +31,9 @@ export function StatCard({
     >
       <SpotlightCard className="p-5">
         <div className="flex items-start justify-between gap-3">
-          <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">{label}</p>
+          <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
+            {label}
+          </p>
           {Icon ? (
             <span className="icon-well size-8">
               <Icon className="size-3.5" aria-hidden />

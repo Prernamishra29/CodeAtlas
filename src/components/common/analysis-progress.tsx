@@ -39,10 +39,7 @@ export function AnalysisProgress({ analysis }: { analysis: AnalysisRecord }) {
 
   const pct = Math.min(100, Math.max(0, analysis.progress));
   const eta = remainingSeconds(pct, analysis.started_at, analysis.created_at);
-  const label =
-    analysis.current_step ||
-    stepCopy[analysis.status] ||
-    analysis.status;
+  const label = analysis.current_step || stepCopy[analysis.status] || analysis.status;
 
   return (
     <div className="mt-6 max-w-xl rounded-[1.35rem] bg-white/[0.07] p-4 ring-1 ring-white/10">
@@ -59,11 +56,7 @@ export function AnalysisProgress({ analysis }: { analysis: AnalysisRecord }) {
           </div>
           <div className="mt-2 flex flex-wrap items-center justify-between gap-2 text-xs text-white/50">
             <span>{pct}% complete</span>
-            <span>
-              {pct < 4
-                ? "Usually 2–4 min once the worker starts"
-                : formatRemain(eta)}
-            </span>
+            <span>{pct < 4 ? "Usually 2–4 min once the worker starts" : formatRemain(eta)}</span>
           </div>
         </div>
       </div>

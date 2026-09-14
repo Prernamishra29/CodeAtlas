@@ -38,7 +38,11 @@ async function setProgress(
 }
 
 async function isCancelled(db: Db, analysisId: string) {
-  const { data } = await db.from("analyses").select("cancel_requested").eq("id", analysisId).maybeSingle();
+  const { data } = await db
+    .from("analyses")
+    .select("cancel_requested")
+    .eq("id", analysisId)
+    .maybeSingle();
   return Boolean(data?.cancel_requested);
 }
 
@@ -50,7 +54,10 @@ async function withTimeout<T>(work: Promise<T>): Promise<T> {
     return await Promise.race([
       work,
       new Promise<never>((_, reject) => {
-        timer = setTimeout(() => reject(new AnalysisError("Analysis timed out.", true)), JOB_TIMEOUT_MS);
+        timer = setTimeout(
+          () => reject(new AnalysisError("Analysis timed out.", true)),
+          JOB_TIMEOUT_MS,
+        );
       }),
     ]);
   } finally {
@@ -58,12 +65,15 @@ async function withTimeout<T>(work: Promise<T>): Promise<T> {
   }
 }
 
-async function runJob(db: Db, job: {
-  id: string;
-  repository_id: string;
-  attempts: number;
-  max_attempts: number;
-}) {
+async function runJob(
+  db: Db,
+  job: {
+    id: string;
+    repository_id: string;
+    attempts: number;
+    max_attempts: number;
+  },
+) {
   const { data: repo } = await db
     .from("repositories")
     .select("id, url, default_branch")
@@ -223,7 +233,10 @@ async function processQueue() {
           .from("analyses")
           .update({ status: "cancelled", current_step: "Cancelled", locked_at: null })
           .eq("id", job.id);
-        await db.from("repositories").update({ status: "not_analyzed" }).eq("id", job.repository_id);
+        await db
+          .from("repositories")
+          .update({ status: "not_analyzed" })
+          .eq("id", job.repository_id);
         continue;
       }
       await handleFailure(db, { ...job, attempts }, error);

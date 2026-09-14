@@ -89,14 +89,20 @@ function resolveInternal(
     if (specifier.startsWith(".")) {
       const ups = /^\.+/.exec(specifier)![0].length;
       const rest = specifier.slice(ups).replace(/\./g, "/");
-      const baseDir = dir.split("/").slice(0, Math.max(0, dir.split("/").length - (ups - 1))).join("/");
+      const baseDir = dir
+        .split("/")
+        .slice(0, Math.max(0, dir.split("/").length - (ups - 1)))
+        .join("/");
       return tryCandidates(normalise(`${baseDir}/${rest}`));
     }
     return tryCandidates(specifier.replace(/\./g, "/"));
   }
 
   if (language === "Java") {
-    const className = specifier.split(".").filter((part) => part !== "*").pop();
+    const className = specifier
+      .split(".")
+      .filter((part) => part !== "*")
+      .pop();
     if (!className) return null;
     const matches = bySuffix.get(`${className}.java`) ?? [];
     return matches[0] ?? null;
@@ -105,7 +111,8 @@ function resolveInternal(
   if (language === "Go") {
     const tail = specifier.split("/").slice(-2).join("/");
     for (const path of index) {
-      if (path.endsWith(".go") && (path.includes(`/${tail}/`) || path.startsWith(`${tail}/`))) return path;
+      if (path.endsWith(".go") && (path.includes(`/${tail}/`) || path.startsWith(`${tail}/`)))
+        return path;
     }
     return null;
   }
@@ -114,21 +121,57 @@ function resolveInternal(
     return tryCandidates(normalise(`${dir}/${specifier}`));
   }
   if (specifier.startsWith("@/")) {
-    return tryCandidates(normalise(`src/${specifier.slice(2)}`)) ?? tryCandidates(normalise(specifier.slice(2)));
+    return (
+      tryCandidates(normalise(`src/${specifier.slice(2)}`)) ??
+      tryCandidates(normalise(specifier.slice(2)))
+    );
   }
   if (specifier.startsWith("~/")) {
     return tryCandidates(normalise(`src/${specifier.slice(2)}`));
   }
-  if (specifier.startsWith("src/") || specifier.startsWith("app/") || specifier.startsWith("lib/")) {
+  if (
+    specifier.startsWith("src/") ||
+    specifier.startsWith("app/") ||
+    specifier.startsWith("lib/")
+  ) {
     return tryCandidates(normalise(specifier));
   }
   return null;
 }
 
 const STDLIB_HINTS = new Set([
-  "os","sys","json","re","math","time","datetime","typing","pathlib","collections","itertools",
-  "logging","asyncio","subprocess","fmt","errors","strings","strconv","context","net/http","io",
-  "node:fs","node:path","node:crypto","fs","path","crypto","http","https","url","util","events",
+  "os",
+  "sys",
+  "json",
+  "re",
+  "math",
+  "time",
+  "datetime",
+  "typing",
+  "pathlib",
+  "collections",
+  "itertools",
+  "logging",
+  "asyncio",
+  "subprocess",
+  "fmt",
+  "errors",
+  "strings",
+  "strconv",
+  "context",
+  "net/http",
+  "io",
+  "node:fs",
+  "node:path",
+  "node:crypto",
+  "fs",
+  "path",
+  "crypto",
+  "http",
+  "https",
+  "url",
+  "util",
+  "events",
 ]);
 
 function externalName(specifier: string, language: string) {
@@ -255,7 +298,13 @@ export function maxChainDepth(edges: DependencyEdge[]): number {
 }
 
 export interface HealthInput {
-  files: { path: string; lines: number; language: string; importCount: number; docLines?: number }[];
+  files: {
+    path: string;
+    lines: number;
+    language: string;
+    importCount: number;
+    docLines?: number;
+  }[];
   functions: { name: string; path: string; complexity: number }[];
   edges: DependencyEdge[];
   documentationFiles: number;
@@ -330,12 +379,13 @@ export function assessHealth(input: HealthInput): HealthReport {
 
   const fileCount = Math.max(1, input.files.length);
   const functionCount = Math.max(1, input.functions.length);
-  const avgComplexity =
-    input.functions.reduce((sum, fn) => sum + fn.complexity, 0) / functionCount;
+  const avgComplexity = input.functions.reduce((sum, fn) => sum + fn.complexity, 0) / functionCount;
 
   const architecture = clamp(100 - cycles.length * 12 - Math.max(0, depth - DEEP_CHAIN) * 6);
   const maintainability = clamp(100 - (largeFiles.length / fileCount) * 220);
-  const complexity = clamp(100 - Math.max(0, avgComplexity - 3) * 9 - (complexFunctions.length / functionCount) * 160);
+  const complexity = clamp(
+    100 - Math.max(0, avgComplexity - 3) * 9 - (complexFunctions.length / functionCount) * 160,
+  );
   const dependencies = clamp(100 - (heavyImports.length / fileCount) * 200 - cycles.length * 6);
   const documentation = clamp((input.documentationFiles / fileCount) * 900 + 25);
 

@@ -21,8 +21,14 @@ function DependenciesPage() {
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  const filesQuery = useQuery({ queryKey: ["files", id], queryFn: () => repositoriesApi.getFiles(id) });
-  const depsQuery = useQuery({ queryKey: ["deps", id], queryFn: () => repositoriesApi.getDependencies(id) });
+  const filesQuery = useQuery({
+    queryKey: ["files", id],
+    queryFn: () => repositoriesApi.getFiles(id),
+  });
+  const depsQuery = useQuery({
+    queryKey: ["deps", id],
+    queryFn: () => repositoriesApi.getDependencies(id),
+  });
 
   const files = filesQuery.data ?? [];
   const deps = depsQuery.data ?? [];
@@ -31,9 +37,7 @@ function DependenciesPage() {
   const selectedFile = files.find((file) => file.id === selectedId);
   const selectedPackage = selectedId?.startsWith("pkg:") ? selectedId.slice(4) : null;
 
-  const imports = selectedFile
-    ? deps.filter((dep) => dep.sourceId === selectedFile.id)
-    : [];
+  const imports = selectedFile ? deps.filter((dep) => dep.sourceId === selectedFile.id) : [];
   const importedBy = selectedFile
     ? deps.filter((dep) => dep.targetId === selectedFile.id)
     : deps.filter((dep) => selectedPackage && packageName(dep.targetPath) === selectedPackage);
@@ -44,13 +48,19 @@ function DependenciesPage() {
     <PageTransition>
       <div className="mb-4 space-y-3">
         <p className="text-sm leading-relaxed text-white/60">
-          Blue arrows are internal file-to-file imports. Gray boxes are npm packages. Click a file to see what it uses
-          and who uses it.
+          Blue arrows are internal file-to-file imports. Gray boxes are npm packages. Click a file
+          to see what it uses and who uses it.
         </p>
         <div className="flex flex-wrap gap-2 text-xs text-white/70">
-          <span className="rounded-full bg-white/10 px-3 py-1">{graph.internalCount} internal imports</span>
-          <span className="rounded-full bg-white/10 px-3 py-1">{graph.externalCount} package imports</span>
-          <span className="rounded-full bg-white/10 px-3 py-1">{graph.packages.length} packages</span>
+          <span className="rounded-full bg-white/10 px-3 py-1">
+            {graph.internalCount} internal imports
+          </span>
+          <span className="rounded-full bg-white/10 px-3 py-1">
+            {graph.externalCount} package imports
+          </span>
+          <span className="rounded-full bg-white/10 px-3 py-1">
+            {graph.packages.length} packages
+          </span>
         </div>
       </div>
 
@@ -79,7 +89,9 @@ function DependenciesPage() {
           selectedFile ? (
             <div className="space-y-4">
               <div>
-                <p className="text-[10px] uppercase tracking-wider text-muted-foreground">{selectedFile.language}</p>
+                <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                  {selectedFile.language}
+                </p>
                 <h3 className="mt-1 font-mono text-sm font-semibold">
                   {selectedFile.path.split("/").pop()}
                 </h3>
@@ -95,7 +107,10 @@ function DependenciesPage() {
                       const target = files.find((file) => file.id === dep.targetId);
                       const label = target?.path ?? packageName(dep.targetPath) ?? dep.targetPath;
                       return (
-                        <li key={dep.id} className="truncate font-mono text-[11px] text-muted-foreground">
+                        <li
+                          key={dep.id}
+                          className="truncate font-mono text-[11px] text-muted-foreground"
+                        >
                           {label}
                         </li>
                       );
@@ -112,7 +127,10 @@ function DependenciesPage() {
                     importedBy.slice(0, 14).map((dep) => {
                       const source = files.find((file) => file.id === dep.sourceId);
                       return (
-                        <li key={dep.id} className="truncate font-mono text-[11px] text-muted-foreground">
+                        <li
+                          key={dep.id}
+                          className="truncate font-mono text-[11px] text-muted-foreground"
+                        >
                           {source?.path ?? dep.sourceId}
                         </li>
                       );
@@ -131,14 +149,21 @@ function DependenciesPage() {
             </div>
           ) : selectedPackage ? (
             <div className="space-y-3">
-              <p className="text-[10px] uppercase tracking-wider text-muted-foreground">npm package</p>
+              <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                npm package
+              </p>
               <h3 className="font-mono text-sm font-semibold">{selectedPackage}</h3>
-              <p className="text-xs text-muted-foreground">Imported by {importedBy.length} files.</p>
+              <p className="text-xs text-muted-foreground">
+                Imported by {importedBy.length} files.
+              </p>
               <ul className="space-y-1">
                 {importedBy.slice(0, 16).map((dep) => {
                   const source = files.find((file) => file.id === dep.sourceId);
                   return (
-                    <li key={dep.id} className="truncate font-mono text-[11px] text-muted-foreground">
+                    <li
+                      key={dep.id}
+                      className="truncate font-mono text-[11px] text-muted-foreground"
+                    >
                       {source?.path ?? dep.sourceId}
                     </li>
                   );
@@ -180,7 +205,12 @@ function DependenciesPage() {
             </p>
           </div>
         ) : (
-          <GraphCanvas nodes={graph.nodes} edges={graph.edges} onNodeSelect={setSelectedId} nodeTypes={nodeTypes} />
+          <GraphCanvas
+            nodes={graph.nodes}
+            edges={graph.edges}
+            onNodeSelect={setSelectedId}
+            nodeTypes={nodeTypes}
+          />
         )}
       </GraphPanel>
     </PageTransition>

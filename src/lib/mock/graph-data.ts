@@ -19,13 +19,68 @@ const accentStyle = {
 };
 
 export const architectureNodes: GraphNode[] = [
-  { id: "frontend", position: { x: 0, y: 40 }, data: { label: "Frontend", kind: "Web app", detail: "React + Vite SPA served from the edge." }, style: accentStyle },
-  { id: "api", position: { x: 240, y: 40 }, data: { label: "API", kind: "Service", detail: "REST gateway, request validation and rate limits." }, style: accentStyle },
-  { id: "auth", position: { x: 240, y: -70 }, data: { label: "Authentication", kind: "Service", detail: "Session issuing, refresh rotation and recovery." }, style: nodeStyle },
-  { id: "services", position: { x: 490, y: 40 }, data: { label: "Services", kind: "Domain layer", detail: "Repository, analysis and billing domains." }, style: nodeStyle },
-  { id: "database", position: { x: 740, y: -20 }, data: { label: "Database", kind: "Postgres", detail: "Primary relational store with logical replicas." }, style: nodeStyle },
-  { id: "redis", position: { x: 740, y: 100 }, data: { label: "Redis", kind: "Cache / queue", detail: "Hot caches and job hand-off." }, style: nodeStyle },
-  { id: "workers", position: { x: 490, y: 190 }, data: { label: "Background Workers", kind: "Queue consumers", detail: "Parsing, indexing and report generation." }, style: nodeStyle },
+  {
+    id: "frontend",
+    position: { x: 0, y: 40 },
+    data: { label: "Frontend", kind: "Web app", detail: "React + Vite SPA served from the edge." },
+    style: accentStyle,
+  },
+  {
+    id: "api",
+    position: { x: 240, y: 40 },
+    data: {
+      label: "API",
+      kind: "Service",
+      detail: "REST gateway, request validation and rate limits.",
+    },
+    style: accentStyle,
+  },
+  {
+    id: "auth",
+    position: { x: 240, y: -70 },
+    data: {
+      label: "Authentication",
+      kind: "Service",
+      detail: "Session issuing, refresh rotation and recovery.",
+    },
+    style: nodeStyle,
+  },
+  {
+    id: "services",
+    position: { x: 490, y: 40 },
+    data: {
+      label: "Services",
+      kind: "Domain layer",
+      detail: "Repository, analysis and billing domains.",
+    },
+    style: nodeStyle,
+  },
+  {
+    id: "database",
+    position: { x: 740, y: -20 },
+    data: {
+      label: "Database",
+      kind: "Postgres",
+      detail: "Primary relational store with logical replicas.",
+    },
+    style: nodeStyle,
+  },
+  {
+    id: "redis",
+    position: { x: 740, y: 100 },
+    data: { label: "Redis", kind: "Cache / queue", detail: "Hot caches and job hand-off." },
+    style: nodeStyle,
+  },
+  {
+    id: "workers",
+    position: { x: 490, y: 190 },
+    data: {
+      label: "Background Workers",
+      kind: "Queue consumers",
+      detail: "Parsing, indexing and report generation.",
+    },
+    style: nodeStyle,
+  },
 ];
 
 export const architectureEdges: Edge[] = [
@@ -40,13 +95,48 @@ export const architectureEdges: Edge[] = [
 ];
 
 export const dependencyNodes: GraphNode[] = [
-  { id: "d4", position: { x: 0, y: 60 }, data: { label: "@atlas/ui", kind: "internal" }, style: accentStyle },
-  { id: "d1", position: { x: 250, y: -30 }, data: { label: "react", kind: "runtime" }, style: nodeStyle },
-  { id: "d2", position: { x: 250, y: 60 }, data: { label: "zod", kind: "runtime" }, style: nodeStyle },
-  { id: "d5", position: { x: 250, y: 150 }, data: { label: "axios", kind: "runtime" }, style: nodeStyle },
-  { id: "d3", position: { x: 500, y: 20 }, data: { label: "lodash", kind: "runtime" }, style: nodeStyle },
-  { id: "d7", position: { x: 500, y: 120 }, data: { label: "moment", kind: "runtime" }, style: nodeStyle },
-  { id: "d6", position: { x: 500, y: 215 }, data: { label: "vitest", kind: "dev" }, style: nodeStyle },
+  {
+    id: "d4",
+    position: { x: 0, y: 60 },
+    data: { label: "@atlas/ui", kind: "internal" },
+    style: accentStyle,
+  },
+  {
+    id: "d1",
+    position: { x: 250, y: -30 },
+    data: { label: "react", kind: "runtime" },
+    style: nodeStyle,
+  },
+  {
+    id: "d2",
+    position: { x: 250, y: 60 },
+    data: { label: "zod", kind: "runtime" },
+    style: nodeStyle,
+  },
+  {
+    id: "d5",
+    position: { x: 250, y: 150 },
+    data: { label: "axios", kind: "runtime" },
+    style: nodeStyle,
+  },
+  {
+    id: "d3",
+    position: { x: 500, y: 20 },
+    data: { label: "lodash", kind: "runtime" },
+    style: nodeStyle,
+  },
+  {
+    id: "d7",
+    position: { x: 500, y: 120 },
+    data: { label: "moment", kind: "runtime" },
+    style: nodeStyle,
+  },
+  {
+    id: "d6",
+    position: { x: 500, y: 215 },
+    data: { label: "vitest", kind: "dev" },
+    style: nodeStyle,
+  },
 ];
 
 export const dependencyEdges: Edge[] = [

@@ -37,7 +37,10 @@ export function LogoMarquee({
       ) : null}
       <div className="animate-marquee flex w-max gap-10 py-3">
         {loop.map((item, index) => (
-          <span key={`${item}-${index}`} className="font-mono text-sm tracking-widest text-muted-foreground/70">
+          <span
+            key={`${item}-${index}`}
+            className="font-mono text-sm tracking-widest text-muted-foreground/70"
+          >
             {item}
           </span>
         ))}

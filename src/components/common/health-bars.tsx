@@ -28,7 +28,10 @@ export function HealthBars({ repos }: { repos: Repository[] }) {
             </div>
             <div className="h-2 overflow-hidden rounded-full bg-muted">
               <div
-                className={cn("h-full rounded-full transition-all duration-700", barColor(repo.healthScore))}
+                className={cn(
+                  "h-full rounded-full transition-all duration-700",
+                  barColor(repo.healthScore),
+                )}
                 style={{ width: `${Math.max(repo.healthScore, repo.healthScore === 0 ? 0 : 4)}%` }}
               />
             </div>

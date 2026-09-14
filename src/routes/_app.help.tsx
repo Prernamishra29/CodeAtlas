@@ -5,7 +5,10 @@ export const Route = createFileRoute("/_app/help")({
   head: () => ({
     meta: [
       { title: "Help & FAQ — CodeAtlas" },
-      { name: "description", content: "Answers to common questions about analyzing repositories with CodeAtlas." },
+      {
+        name: "description",
+        content: "Answers to common questions about analyzing repositories with CodeAtlas.",
+      },
       { property: "og:title", content: "Help & FAQ — CodeAtlas" },
       { property: "og:description", content: "Common questions about using CodeAtlas." },
     ],
@@ -54,7 +57,9 @@ function HelpPage() {
         </p>
 
         <div className="mt-6 rounded-[1.6rem] bg-[#F3EDE4] p-5 text-zinc-950">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-zinc-500">Do this first</p>
+          <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-zinc-500">
+            Do this first
+          </p>
           <ol className="mt-3 space-y-2 text-sm leading-relaxed">
             <li>1. Import a GitHub URL.</li>
             <li>2. Wait until status is Ready (spinner means it is still working).</li>
@@ -78,7 +83,10 @@ function HelpPage() {
 
         <ul className="mt-4 space-y-3">
           {topics.map((topic) => (
-            <li key={topic.title} className="rounded-[1.45rem] bg-white/[0.07] p-5 ring-1 ring-white/10">
+            <li
+              key={topic.title}
+              className="rounded-[1.45rem] bg-white/[0.07] p-5 ring-1 ring-white/10"
+            >
               <h2 className="font-display text-lg font-semibold text-white">{topic.title}</h2>
               <p className="mt-2 text-sm leading-relaxed text-white/60">{topic.body}</p>
             </li>

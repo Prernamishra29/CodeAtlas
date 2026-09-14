@@ -131,7 +131,11 @@ export function AppSidebar() {
               aria-label={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
               className="flex size-8 shrink-0 items-center justify-center rounded-full bg-[#F3EDE4] text-zinc-950 transition hover:scale-105"
             >
-              {sidebarCollapsed ? <PanelLeftOpen className="size-3.5" /> : <PanelLeftClose className="size-3.5" />}
+              {sidebarCollapsed ? (
+                <PanelLeftOpen className="size-3.5" />
+              ) : (
+                <PanelLeftClose className="size-3.5" />
+              )}
             </button>
           </TooltipTrigger>
           <TooltipContent side="right">{sidebarCollapsed ? "Expand" : "Collapse"}</TooltipContent>
@@ -154,7 +158,12 @@ export function AppSidebar() {
 
       <div className="space-y-1 border-t border-sidebar-border px-2 py-2">
         {secondaryNav.map((item) => (
-          <NavLink key={item.label} item={item} collapsed={sidebarCollapsed} active={isActive(item)} />
+          <NavLink
+            key={item.label}
+            item={item}
+            collapsed={sidebarCollapsed}
+            active={isActive(item)}
+          />
         ))}
         <Link
           to="/profile"
@@ -168,7 +177,9 @@ export function AppSidebar() {
           </span>
           {!sidebarCollapsed ? (
             <span className="min-w-0">
-              <span className="block truncate text-xs text-foreground">{user?.name ?? "Guest"}</span>
+              <span className="block truncate text-xs text-foreground">
+                {user?.name ?? "Guest"}
+              </span>
               <span className="block truncate text-[11px] text-muted-foreground">{user?.role}</span>
             </span>
           ) : null}

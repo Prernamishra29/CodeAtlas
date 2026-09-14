@@ -83,14 +83,18 @@ export function RepoWindow({
             {repo.stats.files > 0 ? (
               <p className="mt-3 text-[11px] text-white/65">
                 {repo.stats.files} files
-                {repo.stats.linesOfCode > 0 ? ` · ${repo.stats.linesOfCode.toLocaleString()} lines` : ""}
+                {repo.stats.linesOfCode > 0
+                  ? ` · ${repo.stats.linesOfCode.toLocaleString()} lines`
+                  : ""}
               </p>
             ) : (
               <p className="mt-3 text-[11px] text-white/65">{repo.language || "Repository"}</p>
             )}
           </div>
           <div className="text-right">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-white/55">Health</p>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-white/55">
+              Health
+            </p>
             <p className="mt-1 font-display text-3xl font-semibold tabular-nums text-[#E2C9FF]">
               {health ?? "—"}
             </p>

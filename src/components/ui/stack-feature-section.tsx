@@ -12,7 +12,10 @@ export function StackOrbitPanel() {
         const step = (2 * Math.PI) / orbit.labels.length;
         const size = `${orbit.scale * 100}%`;
         return (
-          <div key={orbit.scale} className="pointer-events-none absolute inset-0 grid place-items-center">
+          <div
+            key={orbit.scale}
+            className="pointer-events-none absolute inset-0 grid place-items-center"
+          >
             <div
               className="stack-orbit-ring relative rounded-full border border-dashed border-zinc-400/70"
               style={{ width: size, height: size, animationDuration: orbit.duration }}

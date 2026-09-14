@@ -2,17 +2,21 @@ import { INestApplication, ValidationPipe } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import request from "supertest";
-import { AppModule } from "../src/app.module";
 
-const live = Boolean(process.env.DATABASE_URL && process.env.JWT_SECRET && process.env.RUN_API_TESTS === "1");
+const live = Boolean(
+  process.env.DATABASE_URL && process.env.JWT_SECRET && process.env.RUN_API_TESTS === "1",
+);
 
 describe.skipIf(!live)("API e2e", () => {
   let app: INestApplication;
 
   beforeAll(async () => {
+    const { AppModule } = await import("../src/app.module");
     const moduleRef = await Test.createTestingModule({ imports: [AppModule] }).compile();
     app = moduleRef.createNestApplication();
-    app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }));
+    app.useGlobalPipes(
+      new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }),
+    );
     await app.init();
   });
 

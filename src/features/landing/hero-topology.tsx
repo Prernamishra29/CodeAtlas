@@ -72,7 +72,12 @@ export function HeroTopology() {
                 filter="url(#heroGlow)"
                 initial={{ strokeDashoffset: 220 }}
                 animate={{ strokeDashoffset: -220 }}
-                transition={{ duration: 4.8, repeat: Infinity, ease: "linear", delay: index * 0.45 }}
+                transition={{
+                  duration: 4.8,
+                  repeat: Infinity,
+                  ease: "linear",
+                  delay: index * 0.45,
+                }}
               />
             </g>
           );

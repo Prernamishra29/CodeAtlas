@@ -1,6 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { ArrowRight, BookOpen, Github, MessageSquareCode, Search, ShieldCheck, Waypoints } from "lucide-react";
+import {
+  ArrowRight,
+  BookOpen,
+  Github,
+  MessageSquareCode,
+  Search,
+  ShieldCheck,
+  Waypoints,
+} from "lucide-react";
 import { BrandMark } from "@/components/common/brand-mark";
 import { HealthRing } from "@/components/common/health-ring";
 import { LogoMarquee } from "@/components/common/logo-marquee";
@@ -33,12 +41,14 @@ const services = [
   {
     icon: Waypoints,
     title: "Map",
-    detail: "Creating a picture of services and data flow so brand-new engineers see the system before the files.",
+    detail:
+      "Creating a picture of services and data flow so brand-new engineers see the system before the files.",
   },
   {
     icon: ShieldCheck,
     title: "Score",
-    detail: "Crafting a single health read — complexity, risk, and hotspots — without a spreadsheet.",
+    detail:
+      "Crafting a single health read — complexity, risk, and hotspots — without a spreadsheet.",
   },
   {
     icon: MessageSquareCode,
@@ -57,7 +67,10 @@ const reasons = [
 function LandingPage() {
   return (
     <div className="relative min-h-dvh overflow-x-hidden bg-background">
-      <svg className="pointer-events-none absolute inset-0 h-[80vh] w-full opacity-[0.07]" aria-hidden>
+      <svg
+        className="pointer-events-none absolute inset-0 h-[80vh] w-full opacity-[0.07]"
+        aria-hidden
+      >
         <ellipse cx="80%" cy="10%" rx="520" ry="220" fill="none" stroke="white" strokeWidth="1" />
         <ellipse cx="80%" cy="10%" rx="720" ry="320" fill="none" stroke="white" strokeWidth="1" />
         <ellipse cx="80%" cy="10%" rx="920" ry="420" fill="none" stroke="white" strokeWidth="1" />
@@ -68,7 +81,10 @@ function LandingPage() {
           <Link to="/" className="flex items-center" aria-label="CodeAtlas home">
             <BrandMark size="xl" />
           </Link>
-          <nav aria-label="Marketing" className="mx-auto hidden items-center gap-10 text-[13px] text-white/55 sm:flex">
+          <nav
+            aria-label="Marketing"
+            className="mx-auto hidden items-center gap-10 text-[13px] text-white/55 sm:flex"
+          >
             <a href="#capabilities" className="transition-colors hover:text-white">
               Product
             </a>
@@ -102,7 +118,8 @@ function LandingPage() {
                 Understand any codebase in minutes.
               </h1>
               <p className="mt-5 max-w-sm text-[15px] leading-relaxed text-white/50 sm:text-base">
-                Architecture maps, health scores, and answers — so onboarding does not start with a thousand files.
+                Architecture maps, health scores, and answers — so onboarding does not start with a
+                thousand files.
               </p>
               <div className="mt-7 flex flex-wrap items-center gap-3">
                 <Button
@@ -146,8 +163,12 @@ function LandingPage() {
               {services.map((item) => (
                 <article key={item.title}>
                   <item.icon className="size-8 text-zinc-950" aria-hidden />
-                  <h3 className="mt-8 font-display text-3xl font-semibold text-zinc-950">{item.title}</h3>
-                  <p className="mt-4 max-w-xs text-[15px] leading-relaxed text-zinc-500">{item.detail}</p>
+                  <h3 className="mt-8 font-display text-3xl font-semibold text-zinc-950">
+                    {item.title}
+                  </h3>
+                  <p className="mt-4 max-w-xs text-[15px] leading-relaxed text-zinc-500">
+                    {item.detail}
+                  </p>
                   <a
                     href="#views"
                     className="mt-6 inline-flex items-center gap-1.5 text-[13px] font-semibold text-zinc-950 transition-opacity hover:opacity-60"
@@ -161,12 +182,16 @@ function LandingPage() {
 
             <div className="mt-24 grid items-center gap-12 border-t border-zinc-200 pt-16 lg:grid-cols-2 lg:gap-16">
               <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-zinc-400">Languages we map</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-zinc-400">
+                  Languages we map
+                </p>
                 <h2 className="mt-4 font-display text-4xl font-semibold tracking-[-0.03em] text-zinc-950 sm:text-5xl">
                   The architecture revolution
                 </h2>
                 <p className="mt-6 max-w-md text-[16px] leading-relaxed text-zinc-500">
-                  Codebases are getting denser. Teams need to be fast, oriented, and sure. That’s where a map comes in: see the system, score the risk, then ask — without needing to memorise the tree.
+                  Codebases are getting denser. Teams need to be fast, oriented, and sure. That’s
+                  where a map comes in: see the system, score the risk, then ask — without needing
+                  to memorise the tree.
                 </p>
               </div>
               <LanguagePuzzle />
@@ -187,7 +212,10 @@ function LandingPage() {
                   </span>
                   <div className="mt-8 grid grid-cols-2 gap-2">
                     {["API", "Workers", "Redis", "DB"].map((n) => (
-                      <div key={n} className="rounded-2xl bg-zinc-950/50 px-3 py-3 font-mono text-xs font-semibold text-white">
+                      <div
+                        key={n}
+                        className="rounded-2xl bg-zinc-950/50 px-3 py-3 font-mono text-xs font-semibold text-white"
+                      >
                         {n}
                       </div>
                     ))}
@@ -195,7 +223,9 @@ function LandingPage() {
                 </div>
                 <div className="p-6">
                   <h3 className="font-display text-2xl font-bold">Follow the arrows</h3>
-                  <p className="mt-2 text-[14px] text-white/45">Services and data flow before you open a file.</p>
+                  <p className="mt-2 text-[14px] text-white/45">
+                    Services and data flow before you open a file.
+                  </p>
                 </div>
               </article>
 
@@ -217,7 +247,9 @@ function LandingPage() {
                 </div>
                 <div className="p-6">
                   <h3 className="font-display text-2xl font-bold">See risk light up</h3>
-                  <p className="mt-2 text-[14px] text-white/45">One ring for complexity, coverage, and hotspots.</p>
+                  <p className="mt-2 text-[14px] text-white/45">
+                    One ring for complexity, coverage, and hotspots.
+                  </p>
                 </div>
               </article>
 
@@ -237,7 +269,9 @@ function LandingPage() {
                 </div>
                 <div className="p-6">
                   <h3 className="font-display text-2xl font-bold">Ask, don’t grep</h3>
-                  <p className="mt-2 text-[14px] text-white/45">Answers grounded in the repository, not a guess.</p>
+                  <p className="mt-2 text-[14px] text-white/45">
+                    Answers grounded in the repository, not a guess.
+                  </p>
                 </div>
               </article>
             </div>
@@ -269,15 +303,21 @@ function LandingPage() {
             <div className="space-y-10">
               <blockquote>
                 <p className="text-[18px] leading-relaxed text-zinc-600">
-                  “Stop grepping for behaviour. See the map, check the score, then ask the tree what it actually does.”
+                  “Stop grepping for behaviour. See the map, check the score, then ask the tree what
+                  it actually does.”
                 </p>
-                <footer className="mt-4 text-[13px] font-semibold text-zinc-950">Architecture · Health · Chat</footer>
+                <footer className="mt-4 text-[13px] font-semibold text-zinc-950">
+                  Architecture · Health · Chat
+                </footer>
               </blockquote>
               <blockquote>
                 <p className="text-[18px] leading-relaxed text-zinc-600">
-                  “Drop a GitHub URL. Watch modules, edges, and risk resolve — before the first pull request.”
+                  “Drop a GitHub URL. Watch modules, edges, and risk resolve — before the first pull
+                  request.”
                 </p>
-                <footer className="mt-4 text-[13px] font-semibold text-zinc-950">Import · Analyze · Orient</footer>
+                <footer className="mt-4 text-[13px] font-semibold text-zinc-950">
+                  Import · Analyze · Orient
+                </footer>
               </blockquote>
             </div>
           </div>
@@ -287,7 +327,12 @@ function LandingPage() {
           <div className="mx-auto max-w-[1200px] overflow-hidden rounded-[2.6rem] bg-violet">
             <LogoMarquee
               fade={false}
-              items={["Ready to see the system?", "Skip the slog.", "Analyze a repository.", "Maps · health · answers."]}
+              items={[
+                "Ready to see the system?",
+                "Skip the slog.",
+                "Analyze a repository.",
+                "Maps · health · answers.",
+              ]}
               className="py-2 [&_span]:font-display [&_span]:text-xl [&_span]:font-semibold [&_span]:tracking-tight [&_span]:text-zinc-950"
             />
             <div className="flex flex-col items-start justify-between gap-8 px-8 py-14 sm:flex-row sm:items-end sm:px-14">

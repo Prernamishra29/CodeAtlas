@@ -13,7 +13,10 @@ const githubUrl = z
   .trim()
   .min(1, "A repository URL is required.")
   .max(300)
-  .regex(/^https:\/\/github\.com\/[\w.-]+\/[\w.-]+\/?$/, "Use the form https://github.com/user/project");
+  .regex(
+    /^https:\/\/github\.com\/[\w.-]+\/[\w.-]+\/?$/,
+    "Use the form https://github.com/user/project",
+  );
 
 const createSchema = z.object({
   url: githubUrl,
@@ -138,8 +141,7 @@ async function pokeQueueRunner() {
   try {
     const { getRequestUrl } = await import("@tanstack/react-start/server");
     const origin = new URL(getRequestUrl()).origin;
-    const key =
-      process.env["SUPABASE_ANON_KEY"] ?? process.env["SUPABASE_PUBLISHABLE_KEY"] ?? "";
+    const key = process.env["SUPABASE_ANON_KEY"] ?? process.env["SUPABASE_PUBLISHABLE_KEY"] ?? "";
     void fetch(`${origin}/api/public/hooks/process-analysis`, {
       method: "POST",
       headers: { "Content-Type": "application/json", apikey: key },
@@ -183,7 +185,9 @@ export const latestAnalysisFn = createServerFn({ method: "GET" })
 
     const { data: result } = await context.supabase
       .from("analysis_results")
-      .select("total_files, total_lines, total_bytes, total_folders, languages, folders, largest_files")
+      .select(
+        "total_files, total_lines, total_bytes, total_folders, languages, folders, largest_files",
+      )
       .eq("analysis_id", row.id)
       .maybeSingle();
 
@@ -216,7 +220,7 @@ export const getFilesFn = createServerFn({ method: "GET" })
       .select("*, symbols:Symbol(*)")
       .eq("repositoryId", data.id)
       .order("path");
-      
+
     if (error) {
       console.error("CodeFile error", error);
       return [];
@@ -230,14 +234,14 @@ export const getDependenciesFn = createServerFn({ method: "GET" })
   .handler(async ({ data, context }) => {
     const { data: deps, error } = await context.supabase
       .from("Dependency")
-      .select("*, source:CodeFile!Dependency_sourceId_fkey(*), target:CodeFile!Dependency_targetId_fkey(*)")
+      .select(
+        "*, source:CodeFile!Dependency_sourceId_fkey(*), target:CodeFile!Dependency_targetId_fkey(*)",
+      )
       .eq("repositoryId", data.id);
-      
+
     if (error) {
       console.error("Dependency error", error);
       return [];
     }
     return deps ?? [];
   });
-
-

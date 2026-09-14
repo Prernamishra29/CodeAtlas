@@ -30,7 +30,10 @@ export const Route = createFileRoute("/_app/settings")({
       { title: "Settings — CodeAtlas" },
       { name: "description", content: "Manage your CodeAtlas profile, account and preferences." },
       { property: "og:title", content: "Settings — CodeAtlas" },
-      { property: "og:description", content: "Profile, account and preference settings for CodeAtlas." },
+      {
+        property: "og:description",
+        content: "Profile, account and preference settings for CodeAtlas.",
+      },
     ],
   }),
   component: SettingsPage,
@@ -41,7 +44,15 @@ const field = "border-white/10 bg-white/5 text-white";
 const tabOn =
   "rounded-full data-[state=active]:bg-[#C9A6FF] data-[state=active]:text-zinc-950 data-[state=active]:shadow-none";
 
-function Row({ title, description, children }: { title: string; description: string; children?: React.ReactNode }) {
+function Row({
+  title,
+  description,
+  children,
+}: {
+  title: string;
+  description: string;
+  children?: React.ReactNode;
+}) {
   return (
     <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 py-4 last:border-0">
       <div className="min-w-0 max-w-md">
@@ -113,8 +124,11 @@ function SettingsPage() {
   });
 
   const savePref = useMutation({
-    mutationFn: (payload: { notifyAnalysis?: boolean; notifyInsights?: boolean; compactDensity?: boolean }) =>
-      updateProfile(payload),
+    mutationFn: (payload: {
+      notifyAnalysis?: boolean;
+      notifyInsights?: boolean;
+      compactDensity?: boolean;
+    }) => updateProfile(payload),
     onError: (error: Error) => toast.error(error.message),
   });
 
@@ -133,7 +147,9 @@ function SettingsPage() {
     <PageTransition>
       <div className="mx-auto max-w-3xl">
         <h1 className="font-display text-3xl font-semibold tracking-tight text-white">Settings</h1>
-        <p className="mt-2 text-sm text-white/60">Saved to your account. GitHub tokens are encrypted.</p>
+        <p className="mt-2 text-sm text-white/60">
+          Saved to your account. GitHub tokens are encrypted.
+        </p>
 
         <Tabs defaultValue="profile" className="mt-7">
           <TabsList className="h-auto w-full justify-start rounded-full bg-white/8 p-1 ring-1 ring-white/10">
@@ -153,7 +169,9 @@ function SettingsPage() {
 
           <TabsContent value="profile" className={panel}>
             <p className="text-sm font-semibold text-white">How you show up</p>
-            <p className="mt-1 text-sm text-white/50">Name and role appear in the sidebar and on Profile.</p>
+            <p className="mt-1 text-sm text-white/50">
+              Name and role appear in the sidebar and on Profile.
+            </p>
             <form
               className="mt-5 grid max-w-lg gap-4"
               onSubmit={(event) => {
@@ -163,7 +181,12 @@ function SettingsPage() {
             >
               <div className="space-y-1.5">
                 <Label htmlFor="settings-name">Full name</Label>
-                <Input id="settings-name" value={name} onChange={(event) => setName(event.target.value)} className={field} />
+                <Input
+                  id="settings-name"
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                  className={field}
+                />
               </div>
               <div className="space-y-1.5">
                 <Label htmlFor="settings-role">Role</Label>
@@ -184,7 +207,9 @@ function SettingsPage() {
 
           <TabsContent value="account" className={panel}>
             <p className="text-sm font-semibold text-white">Email and password</p>
-            <p className="mt-1 text-sm text-white/50">This is the login for this CodeAtlas account.</p>
+            <p className="mt-1 text-sm text-white/50">
+              This is the login for this CodeAtlas account.
+            </p>
             <form
               className="mt-5 grid max-w-lg gap-3"
               onSubmit={(event) => {
@@ -202,7 +227,12 @@ function SettingsPage() {
                   className={field}
                 />
               </div>
-              <Button type="submit" variant="outline" className="w-fit" disabled={saveEmail.isPending}>
+              <Button
+                type="submit"
+                variant="outline"
+                className="w-fit"
+                disabled={saveEmail.isPending}
+              >
                 {saveEmail.isPending ? <Loader2 className="size-3.5 animate-spin" /> : null}
                 Update email
               </Button>
@@ -237,7 +267,12 @@ function SettingsPage() {
                 />
                 <p className="text-xs text-white/40">At least 8 characters.</p>
               </div>
-              <Button type="submit" variant="outline" className="w-fit" disabled={savePassword.isPending}>
+              <Button
+                type="submit"
+                variant="outline"
+                className="w-fit"
+                disabled={savePassword.isPending}
+              >
                 {savePassword.isPending ? <Loader2 className="size-3.5 animate-spin" /> : null}
                 Update password
               </Button>
@@ -256,7 +291,10 @@ function SettingsPage() {
                   Sign out
                 </Button>
               </Row>
-              <Row title="Delete account" description="Permanently removes your account and every imported repository.">
+              <Row
+                title="Delete account"
+                description="Permanently removes your account and every imported repository."
+              >
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
                     <Button variant="destructive" size="sm">
@@ -267,7 +305,8 @@ function SettingsPage() {
                     <AlertDialogHeader>
                       <AlertDialogTitle>Delete this account?</AlertDialogTitle>
                       <AlertDialogDescription>
-                        This cannot be undone. All repositories, analyses, docs and chats will be removed.
+                        This cannot be undone. All repositories, analyses, docs and chats will be
+                        removed.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
@@ -288,7 +327,8 @@ function SettingsPage() {
           <TabsContent value="github" className={panel}>
             <p className="text-sm font-semibold text-white">Private clones</p>
             <p className="mt-1 text-sm text-white/50">
-              A personal access token lets CodeAtlas clone private repositories. Public ones work without it.
+              A personal access token lets CodeAtlas clone private repositories. Public ones work
+              without it.
             </p>
             <div className="mt-4">
               <span
@@ -313,12 +353,16 @@ function SettingsPage() {
                   autoComplete="off"
                   value={githubToken}
                   onChange={(event) => setGithubToken(event.target.value)}
-                  placeholder={user?.githubConnected ? "Paste a new token to replace it" : "ghp_… or github_pat_…"}
+                  placeholder={
+                    user?.githubConnected
+                      ? "Paste a new token to replace it"
+                      : "ghp_… or github_pat_…"
+                  }
                   className={field}
                 />
                 <p className="text-xs leading-relaxed text-white/40">
-                  Classic tokens need the <span className="text-white/70">repo</span> scope. Fine-grained tokens need
-                  Contents: Read.{" "}
+                  Classic tokens need the <span className="text-white/70">repo</span> scope.
+                  Fine-grained tokens need Contents: Read.{" "}
                   <a
                     href="https://github.com/settings/tokens"
                     target="_blank"
@@ -330,7 +374,11 @@ function SettingsPage() {
                 </p>
               </div>
               <div className="flex flex-wrap gap-2">
-                <Button type="submit" className="w-fit gap-2" disabled={saveGithub.isPending || githubToken.trim().length < 20}>
+                <Button
+                  type="submit"
+                  className="w-fit gap-2"
+                  disabled={saveGithub.isPending || githubToken.trim().length < 20}
+                >
                   {saveGithub.isPending ? <Loader2 className="size-3.5 animate-spin" /> : null}
                   {user?.githubConnected ? "Replace token" : "Save token"}
                 </Button>
@@ -345,13 +393,15 @@ function SettingsPage() {
                       <AlertDialogHeader>
                         <AlertDialogTitle>Remove the GitHub token?</AlertDialogTitle>
                         <AlertDialogDescription>
-                          Private repositories will fail to clone until you save a token again. Public repositories are
-                          unaffected.
+                          Private repositories will fail to clone until you save a token again.
+                          Public repositories are unaffected.
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
                         <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction onClick={() => disconnectGithub.mutate()}>Remove token</AlertDialogAction>
+                        <AlertDialogAction onClick={() => disconnectGithub.mutate()}>
+                          Remove token
+                        </AlertDialogAction>
                       </AlertDialogFooter>
                     </AlertDialogContent>
                   </AlertDialog>
@@ -363,18 +413,24 @@ function SettingsPage() {
           <TabsContent value="preferences" className={panel}>
             <p className="text-sm font-semibold text-white">This device</p>
             <p className="mt-1 text-sm text-white/50">
-              Saved on your account. Completions always appear under Activity. Email is sent when Resend or SMTP is
-              configured.
+              Saved on your account. Completions always appear under Activity. Email is sent when
+              Resend or SMTP is configured.
             </p>
             <div className="mt-2">
-              <Row title="Analysis completed" description="Activity (and email, if configured) when a run finishes.">
+              <Row
+                title="Analysis completed"
+                description="Activity (and email, if configured) when a run finishes."
+              >
                 <Switch
                   checked={user?.notifyAnalysis ?? true}
                   onCheckedChange={(checked) => savePref.mutate({ notifyAnalysis: checked })}
                   aria-label="Analysis completed preference"
                 />
               </Row>
-              <Row title="New insights" description="Activity (and email, if configured) when docs finish.">
+              <Row
+                title="New insights"
+                description="Activity (and email, if configured) when docs finish."
+              >
                 <Switch
                   checked={user?.notifyInsights ?? false}
                   onCheckedChange={(checked) => savePref.mutate({ notifyInsights: checked })}

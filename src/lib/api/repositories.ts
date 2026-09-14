@@ -60,8 +60,8 @@ export const repositoriesApi = {
   },
 
   async documentation(id: string) {
-    return apiRequest<{ id: string; entityType: string; entityId: string | null; content: string }[]>(
-      `/repositories/${id}/documentation`,
-    );
+    return apiRequest<
+      { id: string; entityType: string; entityId: string | null; content: string }[]
+    >(`/repositories/${id}/documentation`);
   },
 };

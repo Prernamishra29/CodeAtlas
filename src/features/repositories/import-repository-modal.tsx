@@ -27,7 +27,10 @@ const schema = z.object({
     .string()
     .trim()
     .min(1, "A repository URL is required.")
-    .regex(/^https:\/\/github\.com\/[\w.-]+\/[\w.-]+\/?$/, "Use the form https://github.com/user/project"),
+    .regex(
+      /^https:\/\/github\.com\/[\w.-]+\/[\w.-]+\/?$/,
+      "Use the form https://github.com/user/project",
+    ),
   branch: z.string().trim().max(80, "Branch name is too long.").optional(),
 });
 
@@ -67,14 +70,14 @@ export function ImportRepositoryModal() {
     onError: (error: Error) => toast.error(error.message),
   });
 
-
   return (
     <Dialog open={importModalOpen} onOpenChange={setImportModalOpen}>
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>Import repository</DialogTitle>
           <DialogDescription>
-            Public repositories work immediately. Private repositories need a GitHub token saved in Settings.
+            Public repositories work immediately. Private repositories need a GitHub token saved in
+            Settings.
           </DialogDescription>
         </DialogHeader>
 
@@ -119,7 +122,9 @@ export function ImportRepositoryModal() {
             {form.formState.errors.branch ? (
               <p className="text-xs text-destructive">{form.formState.errors.branch.message}</p>
             ) : (
-              <p className="text-xs text-muted-foreground">Leave empty to use the default branch.</p>
+              <p className="text-xs text-muted-foreground">
+                Leave empty to use the default branch.
+              </p>
             )}
           </div>
 

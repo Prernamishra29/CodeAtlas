@@ -46,11 +46,17 @@ function useCrumbs() {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const matches = useRouterState({ select: (state) => state.matches });
   const repoName = matches
-    .map((match) => (match.loaderData as { repository?: { name: string } } | undefined)?.repository?.name)
+    .map(
+      (match) =>
+        (match.loaderData as { repository?: { name: string } } | undefined)?.repository?.name,
+    )
     .find(Boolean);
   const segments = pathname.split("/").filter(Boolean);
   return segments.map((segment, index) => ({
-    label: looksLikeId(segment) && repoName ? repoName : (crumbNames[segment] ?? segment.replace(/-/g, " ")),
+    label:
+      looksLikeId(segment) && repoName
+        ? repoName
+        : (crumbNames[segment] ?? segment.replace(/-/g, " ")),
     href: `/${segments.slice(0, index + 1).join("/")}`,
     isLast: index === segments.length - 1,
   }));
@@ -69,8 +75,6 @@ export function AppTopbar() {
     await logout();
     await navigate({ to: "/login", replace: true });
   };
-
-
 
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-border/70 bg-background/20 px-4 backdrop-blur-xl">
@@ -164,7 +168,6 @@ export function AppTopbar() {
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onSelect={() => void handleSignOut()}>Sign out</DropdownMenuItem>
-
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
